@@ -5,7 +5,12 @@ import java.awt.event.ActionListener;
 
 public class MenuAdmin extends JFrame implements ActionListener {
 
-    // Componentes
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	// Componentes
     private JLabel lblTitulo;
 
     private JButton btnTaldesIkusi;
@@ -106,7 +111,8 @@ public class MenuAdmin extends JFrame implements ActionListener {
 		}
 		
 		if(o==btnSailkapenaIkusi) {
-			
+			new SailkapenaIkusi().setVisible(true);
+			dispose();
 		}
 
 		if(o==btnSaioaAmaitu) {

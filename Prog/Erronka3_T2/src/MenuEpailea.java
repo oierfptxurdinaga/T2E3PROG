@@ -91,15 +91,18 @@ public class MenuEpailea extends JFrame implements ActionListener {
 		}
 		
 		if(o==btnJokalariakIkusi) {
-			
+			new JokalariakIkusi().setVisible(true);
+			dispose();
 		}
 				
 		if(o==btnSailkapena) {
-			
+			new SailkapenaIkusi().setVisible(true);
+			dispose();
 		}
 
 		if(o==btnEmaitzakSartu) {
-			
+			new EmaitzakSartu().setVisible(true);
+			dispose();
 		}
 		
 		if(o==btnSaioaAmaitu) {

@@ -1,24 +1,28 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
 
 import DAO.MenuAdmDAO;
+import modelo.Jokalaria;
 import DAO.ErabiltzaileaDAO;
 
-public class JokalariakIkusi extends JFrame implements ActionListener{
+public class JokalariakIkusi extends JFrame implements ActionListener, WindowListener{
 
 	private static final long serialVersionUID = 202405164L;
 
 	private JPanel container;
 	private JButton btnItzuli;
 	private JButton btnXmlsortu;
-	private JLabel lblInfo;
+	
 
 	private DefaultTableModel dtmTaula;
 	private JTable taula;
@@ -31,17 +35,9 @@ public class JokalariakIkusi extends JFrame implements ActionListener{
 	
 	
 	private JComboBox<String> cmbtaldenIzena;
-
-	private JLabel lblSoldataBatura;
-	private JLabel lblSoldataBatazBesteBalioa;
-
-	private JLabel lblSoldataBatazBeste;
-	private JLabel lblZbtLangile;
-	private JLabel lblZbtLangileBalioa;
-	private JLabel lblSoldataBaturaBalioa;
 	
 	MenuAdmDAO madao = new MenuAdmDAO();
-	ErabiltzaileaDAO eradao = new ErabiltzaileaDAO();
+	private JLabel lblLogo;
 
 	
 	/**
@@ -74,17 +70,17 @@ public class JokalariakIkusi extends JFrame implements ActionListener{
 		setContentPane(container);
 		container.setLayout(null);
 		
-		btnItzuli = new JButton("Irten");
+		btnItzuli = new JButton("Itzuli");
 		btnItzuli.setBackground(new Color(255, 0, 0));
 		btnItzuli.setForeground(new Color(255, 255, 255));
 		btnItzuli.setFont(new Font("Arial", Font.BOLD, 24));
-		btnItzuli.setBounds(547, 11, 140, 40);
+		btnItzuli.setBounds(484, 72, 140, 40);
 		container.add(btnItzuli);
 		
 		cmbtaldenIzena = new JComboBox<>();
 		cmbtaldenIzena.setForeground(new Color(0, 0, 0));
 		cmbtaldenIzena.setFont(new Font("Arial", Font.BOLD, 20));
-		cmbtaldenIzena.setBounds(10, 74, 299, 38);
+		cmbtaldenIzena.setBounds(10, 74, 180, 38);
 		container.add(cmbtaldenIzena);
 		
 		String [] taldeak= {"▼ TALDEAK","LA MERCED", "MORAZA", "SANTUTXU FC", "CD BASKONIA", "CD ARIZ", "SD HUMORE ONA"};
@@ -92,7 +88,7 @@ public class JokalariakIkusi extends JFrame implements ActionListener{
 		cmbtaldenIzena.setModel(dcbm);
 		
 		zutabeak = new Vector<>(Arrays.asList(
-				"ID Langilea", "Izena", "Abizenak", "Soldata"
+				"ID Jokalaria", "Izena", "Dorsala", "Golak"
 		));
 
 		taulaDatuak = new Vector<>();
@@ -112,26 +108,100 @@ public class JokalariakIkusi extends JFrame implements ActionListener{
 		btnXmlsortu.setForeground(Color.WHITE);
 		btnXmlsortu.setFont(new Font("Arial", Font.BOLD, 24));
 		btnXmlsortu.setBackground(Color.RED);
-		btnXmlsortu.setBounds(365, 11, 140, 40);
+		btnXmlsortu.setBounds(282, 72, 140, 40);
 		container.add(btnXmlsortu);
 		
 		JLabel lblNewLabel = new JLabel("JOKALARIAK IKUSI");
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 24));
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 34));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 12, 317, 38);
+		lblNewLabel.setBounds(10, 13, 412, 38);
 		container.add(lblNewLabel);
+		
+		lblLogo = new JLabel("LOGO");
+		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lblLogo.setBounds(696, 13, 100, 60);
+		container.add(lblLogo);
 		
 		btnXmlsortu.addActionListener(this);
 		btnItzuli.addActionListener(this);
+		cmbtaldenIzena.addActionListener(this);
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		
-		 if(o == btnItzuli) {
-			
-			 }
+		String Tizena = (String) cmbtaldenIzena.getSelectedItem();
+		 if(o == cmbtaldenIzena) {
+			 Tizena = (String) cmbtaldenIzena.getSelectedItem();
+			  // Vaciamos la tabla solo al cambiar el combo
+		        dtmTaula.setRowCount(0); 
 		
+		        ArrayList<Jokalaria> Jokatera = madao.GuztiaAtera(Tizena);
+				for(Jokalaria j : Jokatera) {
+					dtmTaula.addRow(new Object [] {j.getJokalariId(),j.getIzena(),j.getAdina(),j.getZbkJo()});
+				}
+		 }
+		        
+		 if(o == btnItzuli) {
+			if(ErabiltzaileaDAO.Erabiltzailemota.equals("admin")) {
+				new MenuAdmin().setVisible(true);
+				
+			}else if(ErabiltzaileaDAO.Erabiltzailemota.equals("epaile")) {
+				new MenuEpailea().setVisible(true);
+				
+			}else {
+				new MenuErabiltzailea().setVisible(true);
+				
+			}
+			dispose();
+			 }
+		 
+		 if(o == btnXmlsortu) {
+			 
+		 }
+			
+}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		
+	}
+	
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

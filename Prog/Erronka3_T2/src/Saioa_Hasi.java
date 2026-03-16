@@ -1,10 +1,9 @@
-import java.awt.EventQueue;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+
 
 import javax.swing.*;
 // DAO karpeta inportatzen dugu.
@@ -12,7 +11,11 @@ import DAO.*;
 
 public class Saioa_Hasi extends JFrame implements ActionListener {
 
-    // Componentes
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// Componentes
     private JLabel lblTitulo;
     private JLabel lblUsuario;
     private JLabel lblContrasena;
@@ -37,24 +40,24 @@ public class Saioa_Hasi extends JFrame implements ActionListener {
         lblUsuario = new JLabel("Usuario:");
         lblContrasena = new JLabel("Contraseña:");
 
-        // Campos de texto
+        // Txt-ak
         txtUsuario = new JTextField();
         txtContrasena = new JPasswordField();
 
-        // Botones
+        // Botoiak
         btnLogin = new JButton("Iniciar Sesión");
         btnSalir = new JButton("Salir");
 
-        // Configuración básica del JFrame
+        // JFrame konfigurazioa
         setTitle("Login");
         setSize(350, 250);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Layout simple
+        // Layout sinple
         setLayout(null);
 
-        // Posiciones (estructura visual)
+        // Posizioak esartezn ditugu
         lblTitulo.setBounds(110, 20, 150, 25);
 
         lblUsuario.setBounds(40, 70, 80, 25);
@@ -66,7 +69,7 @@ public class Saioa_Hasi extends JFrame implements ActionListener {
         btnLogin.setBounds(60, 160, 110, 30);
         btnSalir.setBounds(180, 160, 110, 30);
 
-        // Agregar componentes
+        // Aldagaiak sartzen ditugu
         add(lblTitulo);
         add(lblUsuario);
         add(txtUsuario);
@@ -95,7 +98,7 @@ public class Saioa_Hasi extends JFrame implements ActionListener {
 		String EmandakoPasahitz = "";
 		
 		if(o==btnLogin) {
-			// Erabiltzailea ez badu ezer idatzi errore mezua.
+			// Erabiltzailea ez badu ezer idatzi errore mezua emango du.
 			
 			if(EraIzena.isEmpty() || EraPasahitz.isEmpty()) {
 				JOptionPane.showMessageDialog(this, "Ez duzu erabiltzailearen-izena edo pasahitza bat jarri!!");
@@ -108,12 +111,17 @@ public class Saioa_Hasi extends JFrame implements ActionListener {
 				
 				
 				if(Emandakoizen.contains("Administratzailea0.2")) {
+					ErabiltzaileaDAO.Erabiltzailemota = "admin";
 					new MenuAdmin().setVisible(true);
 					dispose(); // Jframea ixten du.
+					
 				}else if(Emandakoizen.contains("Epailea26")) {
+					ErabiltzaileaDAO.Erabiltzailemota = "epaile";
 					new MenuEpailea().setVisible(true);
 					dispose();
+					
 				}else {
+					ErabiltzaileaDAO.Erabiltzailemota = "erabiltzaile";
 					new MenuErabiltzailea().setVisible(true);
 					dispose();
 				}

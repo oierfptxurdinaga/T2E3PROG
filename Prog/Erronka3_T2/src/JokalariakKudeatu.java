@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 
 import DAO.MenuAdmDAO;
 import modelo.Jokalaria;
+import javax.swing.BorderFactory;
 
 public class JokalariakKudeatu extends JFrame implements ActionListener,WindowListener, ListSelectionListener {
 
@@ -59,6 +60,7 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 	private JLabel lblAdina;
 	
 	MenuAdmDAO madao = new MenuAdmDAO();
+	private JLabel lblLogo;
 	
 	/**
 	 * Launch the application.
@@ -162,7 +164,7 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 
 		lblSailaInfo = new JLabel("JOKALARIEN KUDEAKETA");
 		lblSailaInfo.setForeground(new Color(0, 0, 0));
-		lblSailaInfo.setFont(new Font("Arial", Font.BOLD, 24));
+		lblSailaInfo.setFont(new Font("Arial", Font.BOLD, 34));
 		lblSailaInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSailaInfo.setBounds(43, 62, 700, 40);
 		container.add(lblSailaInfo);
@@ -181,7 +183,7 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 		
 		String [] taldeak= {"▼ TALDEAK","LA MERCED", "MORAZA", "SANTUTXU FC", "CD BASKONIA", "CD ARIZ", "SD HUMORE ONA"};
 		DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<>(taldeak);
-		cmbtaldenIzena.setModel(dcbm);
+		cmbtaldenIzena.setModel(new DefaultComboBoxModel(new String[] {"▼ TALDEAK", "LA MERCED", "MORAZA", "SANTUTXU FC", "CD BASKONIA", "CD ARIZ", "SD HUMORE ONA"}));
 		
 		
 		zutabeak = new Vector<>(Arrays.asList(
@@ -200,6 +202,12 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 		scrollPane = new JScrollPane(taula);
 		scrollPane.setBounds(43, 330, 700, 250);
 		container.add(scrollPane);
+		
+		lblLogo = new JLabel("LOGO");
+		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lblLogo.setBounds(696, 10, 100, 60);
+		container.add(lblLogo);
 	
 		btnSartu.addActionListener(this);
 		btnEzabatu.addActionListener(this);
