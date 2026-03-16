@@ -18,6 +18,12 @@ public class Jokalaria extends Pertsona {
 		j.taldeID = taldeID;
 		j.zbkJo = zbkJo;
 	}
+	
+	public Jokalaria() {
+		this.jokalariId = 1;
+		this.taldeID = 1;
+		this.zbkJo = 7;
+	}
 
 	public int getJokalariId() {
 		return jokalariId;

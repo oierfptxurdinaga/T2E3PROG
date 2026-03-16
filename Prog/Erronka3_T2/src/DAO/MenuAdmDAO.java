@@ -103,29 +103,34 @@ public class MenuAdmDAO {
 		
 	}
 	
-	public ArrayList<Jokalaria> GuztiaAtera() {
+	public ArrayList<Jokalaria> GuztiaAtera(String Tizena) {
 		ArrayList<Jokalaria> DatuakAtera = new ArrayList<Jokalaria>();
-		String sql="SELECT j.jokalariId,j.izena,j.adina,j.zbkJo,COUNT(g.golakID) as Gol_Total\r\n"
+		String sql="SELECT j.jokalariId,j.izena,j.adina,j.zbkJo\r\n"
 				+ "FROM tbtaldea t\r\n"
 				+ "JOIN tbjokalaria j on t.taldeID=j.taldeID\r\n"
 				+ "JOIN tbgola g on j.jokalariId=g.jokalariId\r\n"
-				+ "WHERE t.izenaT='LA MERCED'\r\n"
+				+ "WHERE t.izenaT= ?\r\n"
 				+ "GROUP BY 1 ASC";
 		try {
 			coon = Conexioa_BD.conexioa();
 			ps = coon.prepareStatement(sql);
+			ps.setString(1, Tizena);
 			rs = ps.executeQuery();
 			
-			/*while(rs.next()) {
+			while(rs.next()) {
 				int Jid = rs.getInt("jokalariId");
 				String Jizen = rs.getString("izena");
-				int Jadina = rs. 
-			}*/
+				int Jadina = rs.getInt("adina");
+				int Jzbk = rs.getInt("zbkJo");
+				
+				Jokalaria j = new Jokalaria(Jizen, Jadina, Jid, Jid, Jzbk);
+				DatuakAtera.add(j);
+			}
 			
 		}catch(SQLException e) {
 			System.out.println("Error: "+ e.getMessage());
 			e.printStackTrace();
 		}
-		return null;
+		return DatuakAtera;
 	}
 }

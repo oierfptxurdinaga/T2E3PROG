@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import ConexioaBD.Conexioa_BD;
 
 import modelo.Erabiltzailea;
@@ -58,6 +57,9 @@ public class ErabiltzaileaDAO {
 		}
 		
 		return epass;
+	}
+	
+	public static String Erabiltzailemota; {
 		
 	}
 	}
