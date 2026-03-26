@@ -101,7 +101,7 @@ public class JokalariakIkusi extends JFrame implements ActionListener, WindowLis
 		taula.setRowHeight(30);
 
 		scrollPane = new JScrollPane(taula);
-		scrollPane.setBounds(168, 141, 628, 261);
+		scrollPane.setBounds(168, 142, 628, 261);
 		container.add(scrollPane);
 		
 		btnXmlsortu = new JButton("XML");
@@ -134,12 +134,12 @@ public class JokalariakIkusi extends JFrame implements ActionListener, WindowLis
 		String Tizena = (String) cmbtaldenIzena.getSelectedItem();
 		 if(o == cmbtaldenIzena) {
 			 Tizena = (String) cmbtaldenIzena.getSelectedItem();
-			  // Vaciamos la tabla solo al cambiar el combo
+			  // Taula ezabatzen dugu
 		        dtmTaula.setRowCount(0); 
 		
 		        ArrayList<Jokalaria> Jokatera = madao.GuztiaAtera(Tizena);
 				for(Jokalaria j : Jokatera) {
-					dtmTaula.addRow(new Object [] {j.getJokalariId(),j.getIzena(),j.getAdina(),j.getZbkJo()});
+					dtmTaula.addRow(new Object [] {j.getJokalariId(),j.getIzena(),j.getZbkJo(),j.getGolak()});
 				}
 		 }
 		        

@@ -15,7 +15,7 @@ class JokalariaTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		j1=new Jokalaria();
-		j2=new Jokalaria("Markel", 19, 10, 1, 8);
+		j2=new Jokalaria("Markel", 19, 10, 1, 8,0);
 	}
 
 	@Test

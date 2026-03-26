@@ -5,7 +5,12 @@ import java.awt.event.ActionListener;
 
 public class MenuErabiltzailea extends JFrame implements ActionListener {
 
-    // Componentes
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	// Componentes
     private JLabel lblTitulo;
 
     private JButton btnTaldeakIkusi;
@@ -75,7 +80,8 @@ public class MenuErabiltzailea extends JFrame implements ActionListener {
 		Object o = e.getSource();
 		
 		if(o==btnTaldeakIkusi) {
-			
+			new TaldeakIkusi().setVisible(true);
+			dispose();
 		}
 		
 		if(o==btnJokalariakIkusi) {
@@ -84,7 +90,8 @@ public class MenuErabiltzailea extends JFrame implements ActionListener {
 		}
 		
 		if(o==btnSailkapenaIkusi) {
-			
+			new SailkapenaIkusi().setVisible(true);
+			dispose();
 		}
 		
 		if(o==btnSaioaAmaitu) {

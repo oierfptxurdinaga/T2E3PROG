@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import ConexioaBD.Conexioa_BD;
 
-import modelo.Erabiltzailea;
-
 public class ErabiltzaileaDAO {
 
 	Connection coon = null;
@@ -60,7 +58,7 @@ public class ErabiltzaileaDAO {
 	}
 	
 	public static String Erabiltzailemota; {
-		
 	}
+	
 	}
 

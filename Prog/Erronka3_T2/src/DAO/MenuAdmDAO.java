@@ -15,7 +15,7 @@ public class MenuAdmDAO {
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
-	public ArrayList<Jokalaria> Jokalariak_atera(String Tizena) {
+	public ArrayList<Jokalaria> JokalariakAtera(String Tizena) {
 		
 		//Sql a sortzen dugu.
 		String sql="SELECT tj.jokalariId,tj.izena,tj.zbkJo,tj.adina,tj.taldeID FROM tbjokalaria tj JOIN tbtaldea tt ON tj.taldeID=tt.taldeID WHERE tt.izenaT=?";
@@ -34,8 +34,9 @@ public class MenuAdmDAO {
 				int Jzbk =rs.getInt("zbkJo");
 				int Jadina=rs.getInt("adina");
 				int Tid = rs.getInt("taldeID");
+				int Jgol=0;
 				
-				Jokalaria j = new Jokalaria(Jizen, Jadina, Jid,Tid,Jzbk);
+				Jokalaria j = new Jokalaria(Jizen, Jadina, Jid,Tid,Jzbk,Jgol);
 				Jokatera.add(j);
 			}
 			
@@ -46,24 +47,10 @@ public class MenuAdmDAO {
 		
 		return Jokatera;
 	}
-	public void btnSartu(String Tizena, String Jizena,int JokalariId,int Jdorsal,int Jadina) {
+	public void JokalariBerriakSartu(String Tizena, String Jizena,int JokalariId,int Jdorsal,int Jadina,int Tid) {
 		
-		int n=0;
-		if(Tizena.equals("LA MERCED")) {
-			n=1;
-		}else if(Tizena.equals("MORAZA")) {
-			n=2;
-		}else if(Tizena.equals("SANTUTXU FC")) {
-			n=3;
-		}else if(Tizena.equals("CD BASKONIA")) {
-			n=4;
-		}else if(Tizena.equals("CD ARIZ")) {
-			n=5;
-		}else if(Tizena.equals("SD HUMORE ONA")) {
-			n=6;
-		}
 			
-		String sql="INSERT INTO `tbjokalaria`(`jokalariId`, `izena`, `taldeID`, `zbkJo`, `adina`) VALUES (?,?,"+n+",?,?)";
+		String sql="INSERT INTO `tbjokalaria`(`jokalariId`, `izena`, `taldeID`, `zbkJo`, `adina`) VALUES (?,?,?,?,?)";
 		
 		try {
 			
@@ -72,8 +59,9 @@ public class MenuAdmDAO {
 			
 			ps.setInt(1, JokalariId);
 			ps.setString(2, Jizena);
-			ps.setInt(3, Jdorsal);
-			ps.setInt(4, Jadina);
+			ps.setInt(3, Tid);
+			ps.setInt(4, Jdorsal);
+			ps.setInt(5, Jadina);
 			
 			ps.executeUpdate();
 			
@@ -83,7 +71,7 @@ public class MenuAdmDAO {
 		}
 	}
 	
-	public boolean btnEzabatu(int JokalariId) {
+	public boolean JokalariakEzabatu(int JokalariId) {
 		String sql="DELETE FROM tbjokalaria WHERE jokalariId =?";
 		
 	try {
@@ -98,19 +86,18 @@ public class MenuAdmDAO {
 		System.out.println("Error: "+e.getMessage());
 		return false;
 		
-	}
-		
-		
-	}
+	}			
+}
 	
 	public ArrayList<Jokalaria> GuztiaAtera(String Tizena) {
 		ArrayList<Jokalaria> DatuakAtera = new ArrayList<Jokalaria>();
-		String sql="SELECT j.jokalariId,j.izena,j.adina,j.zbkJo\r\n"
-				+ "FROM tbtaldea t\r\n"
-				+ "JOIN tbjokalaria j on t.taldeID=j.taldeID\r\n"
-				+ "JOIN tbgola g on j.jokalariId=g.jokalariId\r\n"
-				+ "WHERE t.izenaT= ?\r\n"
-				+ "GROUP BY 1 ASC";
+		String sql="SELECT j.jokalariId, j.izena, j.adina, j.zbkJo,COUNT(g.golakID)as G_T\r\n"
+				+ "FROM tbjokalaria j\r\n"
+				+ "JOIN tbtaldea t ON j.taldeID = t.taldeID\r\n"
+				+ "LEFT JOIN tbgola g ON j.jokalariId = g.jokalariId\r\n"
+				+ "WHERE t.izenaT=?\r\n"
+				+ "GROUP BY j.izena\r\n"
+				+ "ORDER BY 1 ";
 		try {
 			coon = Conexioa_BD.conexioa();
 			ps = coon.prepareStatement(sql);
@@ -122,8 +109,9 @@ public class MenuAdmDAO {
 				String Jizen = rs.getString("izena");
 				int Jadina = rs.getInt("adina");
 				int Jzbk = rs.getInt("zbkJo");
+				int Jgol = rs.getInt("G_T");
 				
-				Jokalaria j = new Jokalaria(Jizen, Jadina, Jid, Jid, Jzbk);
+				Jokalaria j = new Jokalaria(Jizen, Jadina, Jid, Jid, Jzbk,Jgol);
 				DatuakAtera.add(j);
 			}
 			
@@ -132,5 +120,89 @@ public class MenuAdmDAO {
 			e.printStackTrace();
 		}
 		return DatuakAtera;
+	}
+	
+	public ArrayList<Jokalaria> KanpokoakAtera(String Tizena_K) {
+		ArrayList<Jokalaria> DatuakAtera = new ArrayList<Jokalaria>();
+		String sql="SELECT j.jokalariId, j.izena, j.adina, j.zbkJo,COUNT(g.golakID)as G_T\r\n"
+				+ "FROM tbjokalaria j\r\n"
+				+ "JOIN tbtaldea t ON j.taldeID = t.taldeID\r\n"
+				+ "LEFT JOIN tbgola g ON j.jokalariId = g.jokalariId\r\n"
+				+ "WHERE t.izenaT=?\r\n"
+				+ "GROUP BY j.izena\r\n"
+				+ "ORDER BY 1 ";
+		try {
+			coon = Conexioa_BD.conexioa();
+			ps = coon.prepareStatement(sql);
+			ps.setString(1, Tizena_K);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				int Jid = rs.getInt("jokalariId");
+				String Jizen = rs.getString("izena");
+				int Jadina = rs.getInt("adina");
+				int Jzbk = rs.getInt("zbkJo");
+				int Jgol = rs.getInt("G_T");
+				
+				Jokalaria j = new Jokalaria(Jizen, Jadina, Jid, Jid, Jzbk,Jgol);
+				DatuakAtera.add(j);
+			}
+			
+		}catch(SQLException e) {
+			System.out.println("Error: "+ e.getMessage());
+			e.printStackTrace();
+		}
+		return DatuakAtera;
+	}
+	
+	public boolean JokalariakAldatu(String Jizena_E, int kanpoko_fila) {	
+	boolean	JokAldatu = false;
+	String sql="UPDATE `tbjokalaria` SET `taldeID`= ? WHERE `izena` = ?";	
+	
+	try {
+		coon = Conexioa_BD.conexioa();
+		ps = coon.prepareStatement(sql);
+		ps.setInt(1, kanpoko_fila);
+		ps.setString(2, Jizena_E);
+		ps.executeUpdate();
+		
+		JokAldatu = true;
+		return JokAldatu;
+		
+	}catch(SQLException e) {
+		System.out.println("Error: "+ e.getMessage());
+		e.printStackTrace();
+	}
+		return false;
+	}
+	
+	public ArrayList<Jokalaria> SailkapenAtera() {
+		ArrayList<Jokalaria>Sailakpenak = new ArrayList<Jokalaria>();
+		
+		String sql="SELECT `taldeID`,`izenat`,`TPG`,`TPE`,`TPP`,`TGOL`,`TPTS`,`NumPART` FROM `vligaklasifikazioa`";
+		
+		try {
+			
+			coon = Conexioa_BD.conexioa();
+			ps = coon.prepareStatement(sql);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				String TG = rs.getString("TPG");
+				String TE = rs.getString("TPE");
+				String TP = rs.getString("TPP");
+				String TGL = rs.getString("TGOL");
+				String TPS = rs.getString("TPTS");
+			
+				//Jokalaria j = new Jokalaria(TPS, 0, 0, 0, 0, 0)
+			
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Error: "+ e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return Sailakpenak;
 	}
 }

@@ -1,10 +1,15 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import DAO.ErabiltzaileaDAO;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
-public class SailkapenaIkusi extends JFrame {
+public class SailkapenaIkusi extends JFrame implements ActionListener {
 
     /**
 	 * 
@@ -52,6 +57,7 @@ public class SailkapenaIkusi extends JFrame {
         zutabeak.add("IRABAZITA +3");
         zutabeak.add("BERDINKETA +1");
         zutabeak.add("GALDUTA +0");
+        zutabeak.add("TGOL");
         zutabeak.add("TOTALA");
 
         // DATOS TABLA
@@ -72,6 +78,7 @@ public class SailkapenaIkusi extends JFrame {
             row.add(0);
             row.add(0);
             row.add(0);
+            row.add(0);
             datuak.add(row);
         }
 
@@ -86,9 +93,11 @@ public class SailkapenaIkusi extends JFrame {
         container.add(scrollPane);
         
         comboBox = new JComboBox();
-        comboBox.setModel(new DefaultComboBoxModel(new String[] {"▼ DENBORALDIAK", "2024-2025", "2025-2026", "2026-2027"}));
+        comboBox.setModel(new DefaultComboBoxModel(new String[] {"▼ DENBORALDIAK", "2024/2025", "2025/2026", "2026/2027"}));
         comboBox.setBounds(66, 59, 161, 41);
         container.add(comboBox);
+        
+        btnItzuli.addActionListener(this);
     }
 
     public static void main(String[] args) {
@@ -103,4 +112,24 @@ public class SailkapenaIkusi extends JFrame {
         });
 
     }
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object o = e.getSource();
+		
+		if(o==btnItzuli) {
+			if(ErabiltzaileaDAO.Erabiltzailemota.equals("admin")) {
+				new MenuAdmin().setVisible(true);
+				
+			}else if(ErabiltzaileaDAO.Erabiltzailemota.equals("epaile")) {
+				new MenuEpailea().setVisible(true);
+				
+			}else {
+				new MenuErabiltzailea().setVisible(true);
+				
+			}
+			dispose();
+			 }
+		
+	}
 }

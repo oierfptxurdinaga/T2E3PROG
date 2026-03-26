@@ -93,7 +93,8 @@ public class MenuAdmin extends JFrame implements ActionListener {
 		Object o = e.getSource();
 		
 		if(o==btnTaldesIkusi) {
-			
+			new TaldeakIkusi().setVisible(true);
+			dispose();
 		}
 		
 		if(o==btnJokalariakIkusi) {
@@ -107,7 +108,8 @@ public class MenuAdmin extends JFrame implements ActionListener {
 		}
 		
 		if(o==btnJokalariakAldatu) {
-			
+			new JokalariakAldatu().setVisible(true);
+			dispose();
 		}
 		
 		if(o==btnSailkapenaIkusi) {

@@ -227,7 +227,7 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 			  // Vaciamos la tabla solo al cambiar el combo
 		        dtmTaula.setRowCount(0); 
 		        
-		        ArrayList<Jokalaria> Jate = madao.Jokalariak_atera(Tizena);
+		        ArrayList<Jokalaria> Jate = madao.JokalariakAtera(Tizena);
 		        for(Jokalaria j : Jate) {
 		        dtmTaula.addRow(new Object[] {j.getJokalariId(),j.getIzena(),j.getZbkJo(),j.getAdina()});	
 		        }
@@ -239,8 +239,9 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 			 String Jizena=txtIzena.getText();
 			 int Jdorsal=Integer.parseInt(txtDorsala.getText());
 			 int Jadina=Integer.parseInt(txtAdina.getText());
+			int Tid = cmbtaldenIzena.getSelectedIndex();
 			 
-			 madao.btnSartu(Tizena, Jizena, JokalariId, Jdorsal, Jadina);
+			 madao.JokalariBerriakSartu(Tizena, Jizena, JokalariId, Jdorsal, Jadina, Tid);
 			 dtmTaula.addRow(new Object[] {JokalariId,Jizena,Jadina,Jdorsal});
 			 
 			 //Behin datuak sartzerakoan estekak esabatzen dira. 
@@ -259,8 +260,19 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 		        }else {
 		       
 		        int JokalariId=Integer.parseInt(txtIDjokalaria.getText());
-		        madao.btnEzabatu(JokalariId);
-		        dtmTaula.removeRow(fila);
+		       
+		        
+		        int option = JOptionPane.showConfirmDialog(null, "Zihur saude jokalari hori ezabatu nahi duzula?", null, JOptionPane.YES_NO_OPTION);
+		        
+		        if(option == JOptionPane.YES_OPTION) {
+		        	 madao.JokalariakEzabatu(JokalariId); 
+		        	 dtmTaula.removeRow(fila);
+		        	}else if(option == JOptionPane.NO_OPTION) {
+		        		txtIDjokalaria.setText("");
+		   			 	txtIzena.setText("");
+		   			 	txtAdina.setText("");
+		   			 	txtDorsala.setText("");
+		        	}
 		        }
 
 		 }
