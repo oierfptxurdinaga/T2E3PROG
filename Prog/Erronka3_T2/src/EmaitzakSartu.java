@@ -7,6 +7,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
@@ -24,26 +26,26 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import DAO.LogDAO;
 import DAO.MenuAdmDAO;
 import DAO.MenuEpaileaDAO;
 import modelo.Jokalaria;
 import modelo.Partidua;
+import javax.swing.BorderFactory;
 
-public class EmaitzakSartu extends JFrame  implements ActionListener{
+public class EmaitzakSartu extends JFrame  implements ActionListener, MouseListener{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
 	private JButton btnItzuli;
 	private JButton btnSartu;
+	private JButton btnEzabatu;
 	
-	private JComboBox TaldeLocal;
-	private JComboBox TaldeKanpoko;
 	private JComboBox Denboraldiak;
 	
-	private JTextField textMinuL;
-	private JTextField textMinuK;
-	
+	private JTextField textMinutu;
+
 	private JScrollPane scrollPaneKanpokoak;
 	
 	private Vector<String> zutabeak;
@@ -56,8 +58,14 @@ public class EmaitzakSartu extends JFrame  implements ActionListener{
 	private DefaultTableModel dtmk;
 	private JTable tableK;
 	
+	private ArrayList<Partidua> listaPartiduak = new ArrayList<>();
+	private ArrayList<Jokalaria> listaJokL = new ArrayList<>();
+	private ArrayList<Jokalaria> listaJokK = new ArrayList<>();
+	
 	MenuAdmDAO madao = new MenuAdmDAO();
 	MenuEpaileaDAO mepdao = new MenuEpaileaDAO(); 
+	private JLabel lblLokalak;
+	private JLabel lblKanpokoak;
 
 	/**
 	 * Launch the application.
@@ -66,6 +74,7 @@ public class EmaitzakSartu extends JFrame  implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					LogDAO.inicializarLogger();
 					EmaitzakSartu frame = new EmaitzakSartu();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -79,60 +88,51 @@ public class EmaitzakSartu extends JFrame  implements ActionListener{
 	 * Create the frame.
 	 */
 	public EmaitzakSartu() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 754, 540);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setBounds(100, 100, 808, 660);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
 		
 		JLabel lblNewLabel = new JLabel("Emaitzak-Sartu");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 34));
-		lblNewLabel.setBounds(10, 23, 304, 40);
+		lblNewLabel.setBounds(10, 8, 492, 40);
 		contentPane.add(lblNewLabel);
 		
-		btnItzuli = new JButton("Irten");
+		btnItzuli = new JButton("Itzuli");
 		btnItzuli.setForeground(Color.WHITE);
 		btnItzuli.setFont(new Font("Arial", Font.BOLD, 24));
-		btnItzuli.setBackground(Color.RED);
-		btnItzuli.setBounds(303, 23, 140, 40);
+		btnItzuli.setBackground(new Color(0, 0, 255));
+		btnItzuli.setBounds(512, 8, 140, 40);
 		contentPane.add(btnItzuli);
 		
-		TaldeLocal = new JComboBox();
-		TaldeLocal.setModel(new DefaultComboBoxModel(new String[] {"▼ LOKALA", "LA MERCED", "MORAZA", "SANTUTXU FC", "CD BASKONIA", "CD ARIZ", "SD HUMORE ONA"}));
-		TaldeLocal.setBounds(46, 76, 140, 32);
-		contentPane.add(TaldeLocal);
-		
-		TaldeKanpoko = new JComboBox();
-		TaldeKanpoko.setModel(new DefaultComboBoxModel(new String[] {"▼ KANPOKOAK", "LA MERCED", "MORAZA", "SANTUTXU FC", "CD BASKONIA", "CD ARIZ", "SD HUMORE ONA"}));
-		TaldeKanpoko.setBounds(590, 76, 140, 32);
-		contentPane.add(TaldeKanpoko);
-		
 		Denboraldiak = new JComboBox();
+		Denboraldiak.setFont(new Font("Arial", Font.BOLD, 20));
 		Denboraldiak.setModel(new DefaultComboBoxModel(new String[] {"▼ DENBORALDIAK", "2024/2025", "2025/2026", "2026/2027"}));
-		Denboraldiak.setBounds(282, 209, 161, 32);
+		Denboraldiak.setBounds(279, 192, 218, 38);
 		contentPane.add(Denboraldiak);
 		
 		btnSartu = new JButton("Sartu");
 		btnSartu.setForeground(Color.WHITE);
 		btnSartu.setFont(new Font("Arial", Font.BOLD, 24));
-		btnSartu.setBackground(Color.RED);
-		btnSartu.setBounds(453, 23, 140, 40);
+		btnSartu.setBackground(new Color(0, 0, 255));
+		btnSartu.setBounds(211, 555, 140, 40);
 		contentPane.add(btnSartu);
 		
-		textMinuL = new JTextField("0");
-		textMinuL.setColumns(10);
-		textMinuL.setBounds(231, 116, 120, 32);
-		contentPane.add(textMinuL);
+		textMinutu = new JTextField("0");
+		textMinutu.setHorizontalAlignment(SwingConstants.CENTER);
+		textMinutu.setColumns(10);
+		textMinutu.setBounds(321, 137, 130, 32);
+		contentPane.add(textMinutu);
 		
-		textMinuK = new JTextField("0");
-		textMinuK.setColumns(10);
-		textMinuK.setBounds(440, 116, 120, 32);
-		contentPane.add(textMinuK);
+		
 		
 		JScrollPane scrollPaneEtxea = new JScrollPane();
-		scrollPaneEtxea.setBounds(46, 118, 130, 110);
+		scrollPaneEtxea.setBounds(46, 118, 152, 157);
 		contentPane.add(scrollPaneEtxea);
 		
 		zutabeak = new Vector<>(Arrays.asList(
@@ -143,13 +143,17 @@ public class EmaitzakSartu extends JFrame  implements ActionListener{
 		dtmk = new DefaultTableModel(taulaDatuak, zutabeak);
 		
 		tableE = new JTable(dtme);
+		tableE.setForeground(new Color(0, 0, 255));
+		tableE.setFont(new Font("Arial", Font.BOLD, 15));
 		scrollPaneEtxea.setViewportView(tableE);
 	
 		scrollPaneKanpokoak = new JScrollPane();
-		scrollPaneKanpokoak.setBounds(600, 118, 130, 110);
+		scrollPaneKanpokoak.setBounds(600, 118, 152, 157);
 		contentPane.add(scrollPaneKanpokoak);
 		
 		tableK = new JTable(dtmk);
+		tableK.setForeground(new Color(0, 0, 255));
+		tableK.setFont(new Font("Arial", Font.BOLD, 15));
 		scrollPaneKanpokoak.setViewportView(tableK);
 		
 		/*JComboBox Jardunaldiak = new JComboBox();
@@ -158,7 +162,7 @@ public class EmaitzakSartu extends JFrame  implements ActionListener{
 		contentPane.add(Jardunaldiak);*/
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 304, 720, 188);
+		scrollPane.setBounds(36, 294, 720, 250);
 		contentPane.add(scrollPane);
 		
 		dtm = new DefaultTableModel(
@@ -169,82 +173,193 @@ public class EmaitzakSartu extends JFrame  implements ActionListener{
 			);
 
 			table = new JTable(dtm);
+			table.setForeground(new Color(0, 0, 255));
+			table.setFont(new Font("Arial", Font.BOLD, 15));
 			scrollPane.setViewportView(table);
+			
+			btnEzabatu = new JButton("Ezabatu");
+			btnEzabatu.setForeground(Color.WHITE);
+			btnEzabatu.setFont(new Font("Arial", Font.BOLD, 24));
+			btnEzabatu.setBackground(new Color(0, 0, 255));
+			btnEzabatu.setBounds(440, 555, 140, 40);
+			contentPane.add(btnEzabatu);
+			
+			JLabel lblLogo = new JLabel("LOGO");
+			lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
+			lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+			lblLogo.setBounds(688, 8, 100, 60);
+			contentPane.add(lblLogo);
+			
+			lblLokalak = new JLabel("Lokalak");
+			lblLokalak.setHorizontalAlignment(SwingConstants.CENTER);
+			lblLokalak.setForeground(Color.BLUE);
+			lblLokalak.setFont(new Font("Arial", Font.BOLD, 24));
+			lblLokalak.setBackground(Color.WHITE);
+			lblLokalak.setBounds(46, 69, 152, 40);
+			contentPane.add(lblLokalak);
+			
+			lblKanpokoak = new JLabel("Kanpokoak\r\n");
+			lblKanpokoak.setHorizontalAlignment(SwingConstants.CENTER);
+			lblKanpokoak.setForeground(Color.BLUE);
+			lblKanpokoak.setFont(new Font("Arial", Font.BOLD, 24));
+			lblKanpokoak.setBackground(Color.WHITE);
+			lblKanpokoak.setBounds(600, 69, 152, 40);
+			contentPane.add(lblKanpokoak);
 
 		btnItzuli.addActionListener(this);
 		btnSartu.addActionListener(this);
-		TaldeLocal.addActionListener(this);
-		TaldeKanpoko.addActionListener(this);
 		Denboraldiak.addActionListener(this);
+		table.addMouseListener(this);
+		btnEzabatu.addActionListener(this);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
-		
-		String Tizena_L = (String) TaldeLocal.getSelectedItem();
-		String Tizena_K = (String) TaldeKanpoko.getSelectedItem(); 
 		String DenboIzen = (String) Denboraldiak.getSelectedItem();
+	    int filaTaula = table.getSelectedRow();
 		
-		if(o == TaldeLocal) {
-			dtme.setRowCount(0);
-			
-			ArrayList<Jokalaria> Jokalaria = madao.JokalariakAtera(Tizena_L);
-			for(Jokalaria j : Jokalaria) {
-				dtme.addRow(new Object[] {j.getIzena()});
-			}
-		}
-		
-		if(o == TaldeKanpoko) {
-			dtmk.setRowCount(0);
-			
-			ArrayList<Jokalaria> Jokalaria_K = madao.JokalariakAtera(Tizena_K);
-			for(Jokalaria j : Jokalaria_K) {
-				dtmk.addRow(new Object [] {j.getIzena()});
-			}
-		}
-		
-		if(o == Denboraldiak) {
+	    if(o == Denboraldiak) {
 			dtm.setRowCount(0);
 			
-			ArrayList<Partidua> PartiduakA = mepdao.PartiduakAtera(DenboIzen);
-			for(Partidua p : PartiduakA) {
-				dtm.addRow(new Object [] {p.getJardunaldia(),p.getPartiduaId(),p.getTaldeLokala(),p.getTaldeKanpokoa(),p.getGolLokala(),p.getGolKanpokoa()});
+			listaPartiduak = mepdao.PartiduakAtera(DenboIzen);
+			for(Partidua p : listaPartiduak) {
+				dtm.addRow(new Object[] {p.getPartiduaId(),p.getJardunaldia(),p.getTaldeLokala(),p.getTaldeKanpokoa(),p.getGolLokala(),p.getGolKanpokoa()});
 			}
 		}
 		
 		if(o == btnSartu) {
-			if(Tizena_L.equals(Tizena_K) || Tizena_L.equals("▼ LOKALA") || Tizena_K.equals("▼ KANPOKOAK")) {
-				JOptionPane.showMessageDialog(this, "Taldeak berdinak dira edo baten bat ez da haukeratu", null, JOptionPane.ERROR_MESSAGE);
+			
+			 if(DenboIzen.equals("2024/2025")|| DenboIzen.equals("2025/2026")) {
+	            	JOptionPane.showMessageDialog(this, DenboIzen + " denboraldia amaitu da, ezin dira emaitzak sartu.");
+	            	LogDAO.getLogger().warning("Errorea datuak sartzerakoan: Ezin da "+DenboIzen+" denboraldi honetan aldaketak egin, ze jada denboraldia amaitu da.");
+	            	return;
+	            }
+			
+			
+			int filaL = tableE.getSelectedRow();
+		    int filaK = tableK.getSelectedRow();
+		    
+			if(filaTaula == -1) {
+				JOptionPane.showMessageDialog(this, "Taulatik ez duzu partidurik aukeratu");
+				LogDAO.getLogger().warning("Errorea datuak sartzerakoan: Taulatik ez dira partidurik aukeratu");
 				return;
 			}
 			
-			int zutabea_L = tableE.getSelectedRow();
-			int zutabea_K = tableK.getSelectedRow();
+			Partidua p = listaPartiduak.get(filaTaula);
+	        int jokalariaId = -1;
+	        int minutua = 0;
+	        boolean esLocal = false;
+	        
+	        int jardunalID = (int) dtm.getValueAt(filaTaula, 1);
+	       
+		    try {
+		    if(filaL != -1) { //Gol Lokalak sartzeko
+		    	jokalariaId = listaJokL.get(filaL).getJokalariId();
+		    	 minutua = Integer.parseInt(textMinutu.getText());
+		    	 esLocal = true;
+		    	
+		    }else if(filaK != -1) {
+		    		jokalariaId = listaJokK.get(filaK).getJokalariId();
+		    	 	minutua = Integer.parseInt(textMinutu.getText());
+		    }else {
+		        JOptionPane.showMessageDialog(this, "Hautatu jokalari bat!");
+		        LogDAO.getLogger().warning("Errorea datuak sartzerakoan: Ez duzu jokalaririk aukeratu.");
+		        return;
+		    }
+		
+            if(minutua <= 0 || minutua > 120) {
+                JOptionPane.showMessageDialog(this, "Minutu okerra!");
+                LogDAO.getLogger().warning("Errorea datuak sartzerakoan: Minutuak dezegokiak dira.");
+                return;   
+            }
+            
+            boolean ok = mepdao.registrarGol(p.getPartiduaId(), jokalariaId, minutua, p.getJardunaldia(), esLocal);
+            
+            if(ok) {
+                JOptionPane.showMessageDialog(this, "Gola ondo gorde da!");
+                Denboraldiak.setSelectedIndex(Denboraldiak.getSelectedIndex()); 
+                textMinutu.setText("0");
+                LogDAO.getLogger().info("Epailea emaitza berri bat sartu du : "+DenboIzen+" denboraldian");
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Idatzi minutu baliodun bat!");
+        }
+		
+	}
+		if(o == btnEzabatu) {
+			boolean ezabatu = false;
+			int partiduId = (int) dtm.getValueAt(filaTaula, 0);
 			
-			if(zutabea_L !=-1 && zutabea_K !=-1) {
-				String Jokalari_L = dtme.getValueAt(zutabea_L, 0).toString();
-				String Jokalari_K = dtmk.getValueAt(zutabea_K, 0).toString();
-			}
+			if(DenboIzen.equals("2024/2025")|| DenboIzen.equals("2025/2026")) {
+            	JOptionPane.showMessageDialog(this, DenboIzen + " denboraldia amaitu da, ezin dira emaitzak ezabatu.");
+            	return;
+            }
 			
-			int ML = Integer.parseInt(textMinuL.getText());
-			int MK = Integer.parseInt(textMinuK.getText());
-			
-			if(ML < 0 || MK < 0 || ML> 120 || MK > 120 || ML==MK) {
-			JOptionPane.showMessageDialog(this, "Error : Minituak zenbaki dezegokia dira edo minutuak berdinak dira!! ", null, JOptionPane.ERROR_MESSAGE);
-			return;
-			}
-			
-			int idpartidua = table.getSelectedRow();
-			if(idpartidua != -1) {
-				String IdPartidua = dtm.getValueAt(idpartidua, 0).toString();
+			if(filaTaula == -1) {
+				JOptionPane.showMessageDialog(this, "Taulatik ez duzu partidurik aukeratu");
+				return;
+			}else {
+			int option = JOptionPane.showConfirmDialog(this, "Partidu honen emaitzak ezabatzea ?", null, JOptionPane.YES_NO_OPTION);
+				
+			if(option == JOptionPane.YES_OPTION) {
+				mepdao.EmaitzakEzabatu(partiduId);
+				Denboraldiak.setSelectedIndex(Denboraldiak.getSelectedIndex());
+				LogDAO.getLogger().info("Epailea: "+DenboIzen+" denboraldiko "+partiduId+"garren partiduaren emaitzak ezabatu ditu.");
+			}else if(option == JOptionPane.NO_OPTION) {
+				
 			}
 		}
-		
+	}
 		if(o == btnItzuli) {
 			new MenuEpailea().setVisible(true);
+			LogDAO.getLogger().info("Epailea bere menura bueltatu da.");
 			dispose();
 		}
+}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+		int fila = table.getSelectedRow();
+        if (fila != -1) {
+            
+        	String tLocal = (String) dtm.getValueAt(fila, 2);
+            String tKanpo = (String) dtm.getValueAt(fila, 3);
+            
+            dtme.setRowCount(0);
+            listaJokL = madao.JokalariakAtera(tLocal);
+            for(Jokalaria j : listaJokL) dtme.addRow(new Object[]{j.getIzena()});
+            
+            dtmk.setRowCount(0);
+            listaJokK = madao.JokalariakAtera(tKanpo);
+            for(Jokalaria j : listaJokK) dtmk.addRow(new Object[]{j.getIzena()});
+            LogDAO.getLogger().info(fila+" partiduan "+tLocal+" VS "+tKanpo+" taldeak jokatuko dute.");
+            }
+        
+      }
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -6,6 +6,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import DAO.ErabiltzaileaDAO;
+import DAO.LogDAO;
 import DAO.MenuAdmDAO;
 import modelo.Jokalaria;
 
@@ -31,6 +32,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.Component;
 import javax.swing.table.TableModel;
+import javax.swing.BorderFactory;
 
 public class JokalariakAldatu extends JFrame implements ActionListener{
 
@@ -59,6 +61,7 @@ public class JokalariakAldatu extends JFrame implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					LogDAO.inicializarLogger();
 					JokalariakAldatu frame = new JokalariakAldatu();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -72,35 +75,38 @@ public class JokalariakAldatu extends JFrame implements ActionListener{
 	 * Create the frame.
 	 */
 	public JokalariakAldatu() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 720, 400);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setBounds(100, 100, 808, 660);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		setLocationRelativeTo(null);
 		
 		
 		JLabel lblNewLabel = new JLabel("Jokalariak-Aldatu");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 34));
-		lblNewLabel.setBounds(10, 23, 304, 40);
+		lblNewLabel.setBounds(10, 8, 492, 40);
 		contentPane.add(lblNewLabel);
 		
-		btnItzuli = new JButton("Irten");
+		btnItzuli = new JButton("Itzuli");
 		btnItzuli.setForeground(Color.WHITE);
 		btnItzuli.setFont(new Font("Arial", Font.BOLD, 24));
-		btnItzuli.setBackground(Color.RED);
-		btnItzuli.setBounds(334, 23, 140, 40);
+		btnItzuli.setBackground(new Color(0, 0, 255));
+		btnItzuli.setBounds(512, 8, 140, 40);
 		contentPane.add(btnItzuli);
 		
 		comboBox_Etxeko_T = new JComboBox();
+		comboBox_Etxeko_T.setFont(new Font("Arial", Font.BOLD, 20));
 		comboBox_Etxeko_T.setModel(new DefaultComboBoxModel(new String[] {"▼ ETXEKOAK", "LA MERCED", "MORAZA", "SANTUTXU FC", "CD BASKONIA", "CD ARIZ", "SD HUMORE ONA"}));
-		comboBox_Etxeko_T.setBounds(246, 112, 140, 32);
+		comboBox_Etxeko_T.setBounds(57, 95, 180, 49);
 		contentPane.add(comboBox_Etxeko_T);
 		
 		comboBox_Kanpoko_T = new JComboBox();
+		comboBox_Kanpoko_T.setFont(new Font("Arial", Font.BOLD, 20));
 		comboBox_Kanpoko_T.setModel(new DefaultComboBoxModel(new String[] {"▼ KANPOKOAK", "LA MERCED", "MORAZA", "SANTUTXU FC", "CD BASKONIA", "CD ARIZ", "SD HUMORE ONA"}));
-		comboBox_Kanpoko_T.setBounds(556, 112, 140, 32);
+		comboBox_Kanpoko_T.setBounds(492, 95, 180, 49);
 		contentPane.add(comboBox_Kanpoko_T);
 		
 		zutabeak = new Vector<>(Arrays.asList(
@@ -118,15 +124,21 @@ public class JokalariakAldatu extends JFrame implements ActionListener{
 		taulaEtxe_T.setRowHeight(30);
 
 		scrollPane = new JScrollPane(taulaEtxe_T);
-		scrollPane.setBounds(10, 115, 220, 238);
+		scrollPane.setBounds(140, 182, 467, 361);
 		contentPane.add(scrollPane);
 		
 		btnAldatu = new JButton("Aldatu");
 		btnAldatu.setForeground(Color.WHITE);
 		btnAldatu.setFont(new Font("Arial", Font.BOLD, 24));
-		btnAldatu.setBackground(Color.RED);
-		btnAldatu.setBounds(313, 223, 161, 40);
+		btnAldatu.setBackground(new Color(0, 0, 255));
+		btnAldatu.setBounds(318, 555, 140, 40);
 		contentPane.add(btnAldatu);
+		
+		JLabel lblLogo = new JLabel("LOGO");
+		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		lblLogo.setBounds(682, 3, 100, 60);
+		contentPane.add(lblLogo);
 		
 		comboBox_Etxeko_T.addActionListener(this);
 		comboBox_Kanpoko_T.addActionListener(this);
@@ -155,6 +167,7 @@ public class JokalariakAldatu extends JFrame implements ActionListener{
 			 
 			 if(Tizena.equals(Tizena_K) || Tizena.contains("▼ ETXEKOAK") || Tizena_K.contains("▼ KANPOKOAK")) {
 				 JOptionPane.showMessageDialog(this, "Taldeak berdinak dira edo talderen bat ez duzu aukeratu", null, JOptionPane.ERROR_MESSAGE);
+				 LogDAO.getLogger().warning("Error aldaketan: Taldeak berdinak dira edo talderen bat ez duzu aukeratu");
 				 return;
 			 }
 			
@@ -163,6 +176,7 @@ public class JokalariakAldatu extends JFrame implements ActionListener{
 				 JOptionPane.showMessageDialog(this, "Jokalaria: "+Jizena_E+" taldez aldatu da.");
 				 dtmTaula.removeRow(fila);
 				 madao.JokalariakAldatu(Jizena_E, kanpoko_fila);
+				 LogDAO.getLogger().info("Administratzailea Jokalaria: "+Jizena_E+" "+Tizena+" taldetik "+Tizena_K+" taldera aldatu du");
 			 }
 			 
 		 }
@@ -170,13 +184,13 @@ public class JokalariakAldatu extends JFrame implements ActionListener{
 		 if(o == btnItzuli) {
 				if(ErabiltzaileaDAO.Erabiltzailemota.equals("admin")) {
 					new MenuAdmin().setVisible(true);
-					
+					LogDAO.getLogger().info("Administratzaria bere menura bueltatu da.");
 				}else if(ErabiltzaileaDAO.Erabiltzailemota.equals("epaile")) {
 					new MenuEpailea().setVisible(true);
-					
+					LogDAO.getLogger().info("Epailea bere menura bueltatu da.");
 				}else {
 					new MenuErabiltzailea().setVisible(true);
-					
+					LogDAO.getLogger().info("Erabiltzaile arrunta bere menura bueltatu da.");
 				}
 				dispose();
 				 }

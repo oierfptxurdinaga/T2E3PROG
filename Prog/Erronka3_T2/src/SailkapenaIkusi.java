@@ -3,10 +3,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import DAO.ErabiltzaileaDAO;
+import DAO.LogDAO;
+import DAO.MenuAdmDAO;
+import DAO.MenuEpaileaDAO;
+import modelo.Sailkapena;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class SailkapenaIkusi extends JFrame implements ActionListener {
@@ -18,92 +24,88 @@ public class SailkapenaIkusi extends JFrame implements ActionListener {
 	
 	private JPanel container;
     private JButton btnItzuli;
-    private JTable taula;
     private DefaultTableModel dtm;
     private JScrollPane scrollPane;
-    private JComboBox comboBox;
+    private JComboBox<String> comboBox;
 
+    
+    String[] denboraldiak= {"▼ DENBORALDIAK", "2024/2025", "2025/2026", "2026/2027"};
+    private JTable table;
+    
+    MenuAdmDAO madao = new MenuAdmDAO();
+    private JLabel lblLogo;
+    
     public SailkapenaIkusi() {
 
         setTitle("Sailkapena Ikusi");
-        setSize(900, 400);
+        setSize(808, 660);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setResizable(false);
 
         container = new JPanel();
-        container.setLayout(null);
         container.setBackground(new Color(220,220,220));
         container.setBorder(new EmptyBorder(10,10,10,10));
         setContentPane(container);
+        container.setLayout(null);
 
         // TITULO
         JLabel lblTitulo = new JLabel("SAILKAPENA IKUSI");
+        lblTitulo.setBounds(10, 8, 492, 40);
+        lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 34));
-        lblTitulo.setBounds(10, 10, 450, 40);
         container.add(lblTitulo);
 
         // BOTON ITZULI
         btnItzuli = new JButton("Itzuli");
-        btnItzuli.setBackground(Color.RED);
+        btnItzuli.setBounds(512, 8, 140, 40);
+        btnItzuli.setBackground(new Color(0, 0, 255));
         btnItzuli.setForeground(Color.WHITE);
         btnItzuli.setFont(new Font("Arial", Font.BOLD, 18));
-        btnItzuli.setBounds(313, 60, 125, 40);
-        container.add(btnItzuli);
+        container.add(btnItzuli);     
 
-        // COLUMNAS TABLA
-        Vector<String> zutabeak = new Vector<>();
-        zutabeak.add("TALDEAK");
-        zutabeak.add("IRABAZITA +3");
-        zutabeak.add("BERDINKETA +1");
-        zutabeak.add("GALDUTA +0");
-        zutabeak.add("TGOL");
-        zutabeak.add("TOTALA");
-
-        // DATOS TABLA
-        Vector<Vector<Object>> datuak = new Vector<>();
-
-        String[] taldeak = {
-                "MORAZA",
-                "LA MERCED",
-                "CD BASKONIA",
-                "SD ARIZ",
-                "SANTUTXU FC"
-        };
-
-        for(String t : taldeak){
-            Vector<Object> row = new Vector<>();
-            row.add(t);
-            row.add(0);
-            row.add(0);
-            row.add(0);
-            row.add(0);
-            row.add(0);
-            datuak.add(row);
-        }
-
-        dtm = new DefaultTableModel(datuak, zutabeak);
-
-        taula = new JTable(dtm);
-        taula.setRowHeight(35);
-        taula.setFont(new Font("Arial", Font.BOLD, 14));
-
-        scrollPane = new JScrollPane(taula);
-        scrollPane.setBounds(24, 153, 840, 200);
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(26, 186, 726, 397);
         container.add(scrollPane);
         
+        table = new JTable();
+        table.setRowSelectionAllowed(false);
+        table.setFont(new Font("Arial", Font.BOLD, 20));
+        table.setForeground(new Color(0, 0, 128
+        		));
+        table.setRowHeight(55);
+        table.setModel(dtm =new DefaultTableModel(
+        	new Object[][] {
+        	},
+        	new String[] {
+        		"Taldeak","TPG","TPP","TPE", "TGOL", "TPTS", 
+        	}
+        ));
+        scrollPane.setViewportView(table);
+        
+        
         comboBox = new JComboBox();
-        comboBox.setModel(new DefaultComboBoxModel(new String[] {"▼ DENBORALDIAK", "2024/2025", "2025/2026", "2026/2027"}));
-        comboBox.setBounds(66, 59, 161, 41);
+        comboBox.setBounds(10, 107, 229, 41);
+        comboBox.setFont(new Font("Arial", Font.BOLD, 20));
+       DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<String>(denboraldiak);
+       comboBox.setModel(dcbm);
         container.add(comboBox);
         
+        lblLogo = new JLabel("LOGO");
+        lblLogo.setBounds(688, 8, 100, 60);
+        lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
+        lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        container.add(lblLogo);
+        
         btnItzuli.addActionListener(this);
+        comboBox.addActionListener(this);
     }
 
     public static void main(String[] args) {
 
         EventQueue.invokeLater(() -> {
             try {
+            	LogDAO.inicializarLogger();
                 SailkapenaIkusi frame = new SailkapenaIkusi();
                 frame.setVisible(true);
             } catch (Exception e) {
@@ -117,16 +119,36 @@ public class SailkapenaIkusi extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
 		
-		if(o==btnItzuli) {
+			
+		if(o == comboBox) {
+		int Denb_Zenbakia = comboBox.getSelectedIndex();
+			dtm.setRowCount(0);
+				ArrayList<Sailkapena> SI = madao.SailkapenAtera(Denb_Zenbakia);
+				for(Sailkapena s : SI) {
+					dtm.addRow(new Object [] {s.getIzenat(),s.getTPG(),s.getTPE(),s.getTPP(),s.getTPTS(),s.getTGOL()});
+				}
+				if(ErabiltzaileaDAO.Erabiltzailemota.equals("admin")) {
+					LogDAO.getLogger().info("Administratzailea "+Denb_Zenbakia+" denboraldia ikusi du.");
+				}else if(ErabiltzaileaDAO.Erabiltzailemota.equals("epaile")) {
+					LogDAO.getLogger().info("Epailea "+Denb_Zenbakia+" denboraldia ikusi du.");
+				}else {
+					LogDAO.getLogger().info("Erabiltzaile arrunta "+Denb_Zenbakia+" denboraldia ikusi du.");
+				}
+				
+		}
+		
+		if(o == btnItzuli) {
 			if(ErabiltzaileaDAO.Erabiltzailemota.equals("admin")) {
+				LogDAO.getLogger().info("Administratzaria bere menura bueltatu da.");
 				new MenuAdmin().setVisible(true);
 				
 			}else if(ErabiltzaileaDAO.Erabiltzailemota.equals("epaile")) {
+				LogDAO.getLogger().info("Epailea bere menura bueltatu da.");
 				new MenuEpailea().setVisible(true);
 				
 			}else {
 				new MenuErabiltzailea().setVisible(true);
-				
+				LogDAO.getLogger().info("Erabiltzaile arrunta bere menura bueltatu da.");
 			}
 			dispose();
 			 }

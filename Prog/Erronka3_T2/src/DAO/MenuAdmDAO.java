@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import modelo.Jokalaria;
+import modelo.Sailkapena;
 import ConexioaBD.Conexioa_BD;
 
 public class MenuAdmDAO {
@@ -176,10 +177,10 @@ public class MenuAdmDAO {
 		return false;
 	}
 	
-	public ArrayList<Jokalaria> SailkapenAtera() {
-		ArrayList<Jokalaria>Sailakpenak = new ArrayList<Jokalaria>();
+	public ArrayList<Sailkapena> SailkapenAtera(int Denb_Zenbakia ) {
+		ArrayList<Sailkapena>Sailakpenak = new ArrayList<Sailkapena>();
 		
-		String sql="SELECT `taldeID`,`izenat`,`TPG`,`TPE`,`TPP`,`TGOL`,`TPTS`,`NumPART` FROM `vligaklasifikazioa`";
+		String sql="SELECT `taldeID`,`izenat`,`TPG`,`TPE`,`TPP`,`TGOL`,`TPTS`,`NumPART` FROM vligaklasifikazioa0"+ Denb_Zenbakia;
 		
 		try {
 			
@@ -188,14 +189,17 @@ public class MenuAdmDAO {
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				String TG = rs.getString("TPG");
-				String TE = rs.getString("TPE");
-				String TP = rs.getString("TPP");
-				String TGL = rs.getString("TGOL");
-				String TPS = rs.getString("TPTS");
+				
+				int Tid = rs.getInt("taldeID");
+				String izenat = rs.getString("izenat");
+				int TG = rs.getInt("TPG");
+				int TE = rs.getInt("TPE");
+				int TP = rs.getInt("TPP");
+				int TGL = rs.getInt("TGOL");
+				int TPS = rs.getInt("TPTS");
 			
-				//Jokalaria j = new Jokalaria(TPS, 0, 0, 0, 0, 0)
-			
+				Sailkapena s = new Sailkapena(Tid, izenat, TG, TE, TP, TGL, TPS);
+				Sailakpenak.add(s);
 			}
 			
 		} catch (SQLException e) {
@@ -205,4 +209,5 @@ public class MenuAdmDAO {
 		
 		return Sailakpenak;
 	}
+	
 }

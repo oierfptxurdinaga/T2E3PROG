@@ -17,15 +17,16 @@ public class Partidua {
     public Partidua() {}
 
     // Constructor completo
-    public Partidua(int jardunaldia, String taldeLokala, String taldeKanpokoa,
-                   int golLokala, int golKanpokoa,int partiduaId, int denboraldia) {
-        this.jardunaldia = jardunaldia;
-        this.taldeLokala = taldeLokala;
-        this.taldeKanpokoa = taldeKanpokoa;
-        this.golLokala = golLokala;
-        this.golKanpokoa = golKanpokoa;
-        this.partiduaId = partiduaId;
-    }
+    public Partidua(int partiduaId, String taldeLokala, String taldeKanpokoa,
+            int golLokala, int golKanpokoa, int jardunaldia, int denboraldia) {
+ this.partiduaId = partiduaId; 
+ this.taldeLokala = taldeLokala;
+ this.taldeKanpokoa = taldeKanpokoa;
+ this.golLokala = golLokala;
+ this.golKanpokoa = golKanpokoa;
+ this.jardunaldia = jardunaldia;
+ this.denboraldia = denboraldia;
+}
 
 	public int getJardunaldia() {
 		return jardunaldia;

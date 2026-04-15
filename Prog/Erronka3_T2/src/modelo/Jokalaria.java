@@ -1,7 +1,11 @@
 package modelo;
+import jakarta.xml.bind.annotation.*;
+
+@XmlRootElement(name = "Taldea")
+@XmlAccessorType(XmlAccessType.PROPERTY)
 
 public class Jokalaria extends Pertsona {
-
+	
 	private int jokalariId;
 	private int taldeID;
 	private int zbkJo;
@@ -12,6 +16,7 @@ public class Jokalaria extends Pertsona {
 		this.jokalariId = jokalariId;
 		this.taldeID = taldeID;
 		this.zbkJo = zbkJo;
+		this.golak = golak;
 	}
 	
 	public Jokalaria(Jokalaria j) {
@@ -21,21 +26,16 @@ public class Jokalaria extends Pertsona {
 		j.golak = golak;
 	}
 	
-	public Jokalaria() {
-		this.jokalariId = 1;
-		this.taldeID = 1;
-		this.zbkJo = 7;
-		this.golak = 0;
-	}
-
+	public Jokalaria() {}
+	@XmlElement(name ="Jid")
 	public int getJokalariId() {
 		return jokalariId;
 	}
-
+	
 	public void setJokalariId(int jokalariId) {
 		this.jokalariId = jokalariId;
 	}
-
+	@XmlElement(name ="Tid")
 	public int getTaldeID() {
 		return taldeID;
 	}
@@ -43,7 +43,7 @@ public class Jokalaria extends Pertsona {
 	public void setTaldeID(int taldeID) {
 		this.taldeID = taldeID;
 	}
-
+	@XmlElement(name ="Zbk")
 	public int getZbkJo() {
 		return zbkJo;
 	}
@@ -51,7 +51,7 @@ public class Jokalaria extends Pertsona {
 	public void setZbkJo(int zbkJo) {
 		this.zbkJo = zbkJo;
 	}
-
+	@XmlElement(name ="Gol")
 	public int getGolak() {
 		return golak;
 	}

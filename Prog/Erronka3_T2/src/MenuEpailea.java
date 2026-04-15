@@ -1,4 +1,7 @@
 import javax.swing.*;
+
+import DAO.LogDAO;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,7 +55,7 @@ public class MenuEpailea extends JFrame implements ActionListener {
         // Botón salir
         btnSaioaAmaitu = new JButton("Saioa amaitu");
         btnSaioaAmaitu.setBounds(160, 370, 140, 40);
-        btnSaioaAmaitu.setBackground(Color.RED);
+        btnSaioaAmaitu.setBackground(new Color(0, 0, 255));
         btnSaioaAmaitu.setForeground(Color.WHITE);
 
         // Añadir componentes
@@ -64,11 +67,11 @@ public class MenuEpailea extends JFrame implements ActionListener {
         panel.add(btnSaioaAmaitu);
 
         // Configuración del JFrame
-        add(panel);
+        getContentPane().add(panel);
         setTitle("Menu Arbitroa");
         setSize(450, 480);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
         //Botoiei ActionEventak ipintzen diogu:
         btnTaldeakIkusi.addActionListener(this);
@@ -79,6 +82,7 @@ public class MenuEpailea extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
+    	LogDAO.inicializarLogger();
         new MenuEpailea().setVisible(true);
     }
 
@@ -88,26 +92,31 @@ public class MenuEpailea extends JFrame implements ActionListener {
 		
 		if(o==btnTaldeakIkusi) {
 			new TaldeakIkusi().setVisible(true);
+			LogDAO.getLogger().info("Epailea TaldeakIkusi altalera sartu da.");
 			dispose();
 		}
 		
 		if(o==btnJokalariakIkusi) {
 			new JokalariakIkusi().setVisible(true);
+			LogDAO.getLogger().info("Epailea JokalariakIkusi atalera sartu da.");
 			dispose();
 		}
 				
 		if(o==btnSailkapena) {
 			new SailkapenaIkusi().setVisible(true);
+			LogDAO.getLogger().info("Epailea Sailkapena altalera sartu da.");
 			dispose();
 		}
 
 		if(o==btnEmaitzakSartu) {
 			new EmaitzakSartu().setVisible(true);
+			LogDAO.getLogger().info("Epailea EmaitzakSartu atalera sartu da.");
 			dispose();
 		}
 		
 		if(o==btnSaioaAmaitu) {
 			new Saioa_Hasi().setVisible(true);
+			LogDAO.getLogger().info("Epailea sahioa amaitu du.");
 			dispose();
 		}		
 		

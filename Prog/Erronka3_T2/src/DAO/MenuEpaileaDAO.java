@@ -53,20 +53,50 @@ public class MenuEpaileaDAO {
 	}
 	
 	
-	public boolean EmaitzakSartu(String Jokalari_L, String Jokalari_K,int ML, int MK, String IdPartidua) {
+	public boolean registrarGol(int partiduaId, int jokalariaId, int minutua, int jardunalID, boolean esLocal) {
 		
-		boolean Insertado = false;
-		String sql ="UPDATE `tbpartidua` \r\n"
-				+ "SET `partiduaId`=',`denboraldiaID`='[value-2]',`jardunaldiaID`='[value-3]',`taldeLokalID`='[value-4]',`taldeKanpokoID`='[value-5]',`golLokal`='[value-6]',`golKanpoko`='[value-7]',`arbitroaId`='[value-8]'\r\n"
-				+ "WHERE 1";
+		String sqlGola = "INSERT INTO `tbgola`(`denboraldiaID`,`partiduaId`, `jardunaldiaID`, `jokalariId`, `minutua`) VALUES (3,?,?,?,?)";
+		try {
+	        coon = Conexioa_BD.conexioa();
+	      
+	        ps = coon.prepareStatement(sqlGola);
+	        ps.setInt(1, partiduaId); 
+	        ps.setInt(2, jardunalID); 
+	        ps.setInt(3, jokalariaId);
+	        ps.setInt(4, minutua);
+	        ps.executeUpdate();
+	        
+	        String campo = esLocal ? "golLokal" : "golKanpoko";
+	        String sqlPart = "UPDATE tbpartidua SET " + campo + " = " + campo + " + 1 WHERE partiduaId = ?";
+	        PreparedStatement psP = coon.prepareStatement(sqlPart);
+	        psP.setInt(1, partiduaId);
+	        psP.executeUpdate();
+	        
+	        return true;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
+	public void EmaitzakEzabatu(int partiduaId) {
+		
+		String sql="UPDATE `tbpartidua` SET `golLokal` = 0, `golKanpoko` = 0\r\n"
+				+"WHERE `partiduaId` = ?";
 		try {
 			coon = Conexioa_BD.conexioa();
 			ps = coon.prepareStatement(sql);
-			ps.setString(MK, sql);
-		}catch(SQLException e){
+			ps.setInt(1, partiduaId);
+			ps.executeUpdate();
+			
+			String sqlEzb ="DELETE FROM `tbgola` WHERE `partiduaId` = ?";
+			PreparedStatement psE = coon.prepareStatement(sqlEzb);
+			psE.setInt(1, partiduaId);
+			psE.executeUpdate();
+		}catch(SQLException e) {
+			System.out.println("Error: "+ e.getMessage());
 			e.printStackTrace();
 		}
-		return Insertado;
-		
 	}
+	    
 }

@@ -1,4 +1,7 @@
 import javax.swing.*;
+
+import DAO.LogDAO;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,7 +59,7 @@ public class MenuAdmin extends JFrame implements ActionListener {
         // Botón salir
         btnSaioaAmaitu = new JButton("Saioa amaitu");
         btnSaioaAmaitu.setBounds(160, 380, 140, 40);
-        btnSaioaAmaitu.setBackground(Color.RED);
+        btnSaioaAmaitu.setBackground(new Color(0, 0, 255));
         btnSaioaAmaitu.setForeground(Color.WHITE);
 
         // Añadir componentes
@@ -69,11 +72,11 @@ public class MenuAdmin extends JFrame implements ActionListener {
         panel.add(btnSaioaAmaitu);
 
         // Configuración del JFrame
-        add(panel);
+        getContentPane().add(panel);
         setTitle("Menu Admin");
         setSize(450, 500);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         
         //Botoiei ActionEventak ipintzen diogu:
         btnTaldesIkusi.addActionListener(this);
@@ -85,6 +88,7 @@ public class MenuAdmin extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
+    	LogDAO.inicializarLogger();
         new MenuAdmin().setVisible(true);
     }
 
@@ -94,31 +98,37 @@ public class MenuAdmin extends JFrame implements ActionListener {
 		
 		if(o==btnTaldesIkusi) {
 			new TaldeakIkusi().setVisible(true);
+			LogDAO.getLogger().info("Administratzailea TaldeakIkusi altalera sartu da.");
 			dispose();
 		}
 		
 		if(o==btnJokalariakIkusi) {
 			new JokalariakIkusi().setVisible(true);
+			LogDAO.getLogger().info("Administratzailea JokalariakIkusi atalera sartu da.");
 			dispose();
 		}
 		
 		if(o==btnJokalariakKudeatu) {
 			new JokalariakKudeatu().setVisible(true);
+			LogDAO.getLogger().info("Administratzailea JokalariakKudeatu atalera sartu da.");
 			dispose();
 		}
 		
 		if(o==btnJokalariakAldatu) {
 			new JokalariakAldatu().setVisible(true);
+			LogDAO.getLogger().info("Administratzailea JokalariakAldatu atalera sartu da.");
 			dispose();
 		}
 		
 		if(o==btnSailkapenaIkusi) {
 			new SailkapenaIkusi().setVisible(true);
+			LogDAO.getLogger().info("Administratzailea Sailkapena altalera sartu da.");
 			dispose();
 		}
 
 		if(o==btnSaioaAmaitu) {
 			new Saioa_Hasi().setVisible(true);
+			LogDAO.getLogger().info("Administratzailea sahioa amaitu du.");
 			dispose();
 		}		
 	}

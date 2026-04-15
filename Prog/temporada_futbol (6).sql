@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-03-2026 a las 14:19:35
+-- Tiempo de generación: 15-04-2026 a las 13:39:38
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,31 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `temporada_futbol`
 --
+
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `TxertatuLendakaria` (`p_lizena` VARCHAR(50), `p_taldea` INT)   BEGIN
+DECLARE v_dago INT DEFAULT 0;
+
+SELECT COUNT(*)
+INTO v_dago
+FROM tbpresidentea p
+WHERE p.IzenaP = p_lizena;
+
+IF v_dago = 0 THEN
+INSERT INTO tbpresidentea (IzenaP, taldeID)
+VALUES (p_lizena, p_taldea);
+
+SELECT CONCAT('Emaitza: ', p_lizena, ' lendakaria ondo txertatu da.') AS Mezua;
+ELSE
+SELECT CONCAT('Emaitza: ', p_lizena, ' jada existitzen da.') AS Mezua;
+END IF;
+
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -92,7 +117,6 @@ INSERT INTO `tbgola` (`golakID`, `partiduaId`, `denboraldiaID`, `jardunaldiaID`,
 (5, 2, 1, 3, 10, 45),
 (6, 2, 1, 3, 11, 85),
 (7, 2, 1, 3, 8, 90),
-(8, 2, 1, 3, 100, 10),
 (9, 3, 1, 3, 26, 10),
 (10, 3, 1, 3, 65, 50),
 (11, 4, 1, 4, 134, 10),
@@ -101,7 +125,6 @@ INSERT INTO `tbgola` (`golakID`, `partiduaId`, `denboraldiaID`, `jardunaldiaID`,
 (14, 5, 1, 4, 8, 14),
 (15, 5, 1, 4, 8, 30),
 (16, 5, 1, 4, 10, 45),
-(17, 6, 1, 4, 100, 14),
 (18, 7, 1, 5, 115, 10),
 (19, 7, 1, 5, 120, 50),
 (20, 7, 1, 5, 110, 85),
@@ -109,8 +132,6 @@ INSERT INTO `tbgola` (`golakID`, `partiduaId`, `denboraldiaID`, `jardunaldiaID`,
 (22, 7, 1, 5, 140, 70),
 (23, 8, 1, 5, 51, 45),
 (24, 9, 1, 5, 15, 10),
-(25, 9, 1, 5, 1, 35),
-(26, 9, 1, 5, 1, 75),
 (27, 9, 1, 5, 26, 25),
 (28, 9, 1, 5, 26, 90),
 (29, 10, 1, 6, 150, 65),
@@ -132,15 +153,11 @@ INSERT INTO `tbgola` (`golakID`, `partiduaId`, `denboraldiaID`, `jardunaldiaID`,
 (45, 17, 1, 8, 83, 60),
 (46, 17, 1, 8, 99, 75),
 (47, 18, 1, 8, 65, 15),
-(48, 19, 1, 9, 1, 45),
-(49, 20, 1, 9, 1, 10),
 (50, 21, 1, 9, 78, 55),
 (51, 23, 1, 10, 144, 45),
 (52, 23, 1, 10, 104, 25),
 (53, 24, 1, 10, 26, 10),
 (54, 24, 1, 10, 35, 25),
-(55, 24, 1, 10, 1, 45),
-(56, 25, 1, 11, 1, 45),
 (57, 26, 1, 11, 101, 25),
 (58, 27, 1, 11, 75, 55),
 (59, 28, 1, 12, 89, 30),
@@ -148,7 +165,6 @@ INSERT INTO `tbgola` (`golakID`, `partiduaId`, `denboraldiaID`, `jardunaldiaID`,
 (61, 28, 1, 12, 55, 15),
 (62, 29, 1, 12, 26, 15),
 (63, 29, 1, 12, 26, 45),
-(64, 30, 1, 12, 1, 75),
 (65, 30, 1, 12, 10, 95),
 (67, 35, 2, 14, 61, 13),
 (68, 38, 2, 15, 111, 15),
@@ -158,12 +174,10 @@ INSERT INTO `tbgola` (`golakID`, `partiduaId`, `denboraldiaID`, `jardunaldiaID`,
 (72, 52, 2, 20, 131, 16),
 (73, 57, 2, 21, 81, 14),
 (74, 31, 2, 13, 113, 15),
-(75, 32, 2, 13, 1, 11),
 (76, 33, 2, 13, 28, 12),
 (77, 34, 2, 14, 132, 16),
 (78, 36, 2, 14, 82, 14),
 (79, 37, 2, 15, 84, 14),
-(80, 39, 2, 15, 1, 11),
 (81, 40, 2, 16, 133, 16),
 (82, 41, 2, 16, 29, 12),
 (83, 42, 2, 16, 64, 13),
@@ -172,21 +186,16 @@ INSERT INTO `tbgola` (`golakID`, `partiduaId`, `denboraldiaID`, `jardunaldiaID`,
 (86, 47, 2, 18, 83, 14),
 (87, 48, 2, 18, 62, 13),
 (88, 49, 2, 19, 28, 12),
-(89, 50, 2, 19, 1, 11),
 (90, 53, 2, 20, 62, 13),
 (91, 54, 2, 20, 29, 12),
-(92, 55, 2, 21, 1, 11),
 (93, 56, 2, 21, 112, 15),
 (94, 58, 2, 22, 133, 16),
 (95, 59, 2, 22, 29, 12),
-(96, 60, 2, 22, 1, 11),
 (105, 31, 2, 13, 113, 15),
-(106, 32, 2, 13, 1, 11),
 (107, 33, 2, 13, 28, 12),
 (108, 34, 2, 14, 132, 16),
 (109, 36, 2, 14, 82, 14),
 (110, 37, 2, 15, 84, 14),
-(111, 39, 2, 15, 1, 11),
 (112, 40, 2, 16, 133, 16),
 (113, 41, 2, 16, 29, 12),
 (114, 42, 2, 16, 64, 13),
@@ -195,18 +204,13 @@ INSERT INTO `tbgola` (`golakID`, `partiduaId`, `denboraldiaID`, `jardunaldiaID`,
 (117, 47, 2, 18, 83, 14),
 (118, 48, 2, 18, 62, 13),
 (119, 49, 2, 19, 28, 12),
-(120, 50, 2, 19, 1, 11),
 (121, 53, 2, 20, 62, 13),
 (122, 54, 2, 20, 29, 12),
-(123, 55, 2, 21, 1, 11),
 (124, 56, 2, 21, 112, 15),
 (125, 58, 2, 22, 133, 16),
 (126, 59, 2, 22, 29, 12),
-(127, 60, 2, 22, 1, 11),
 (136, 31, 2, 13, 113, 50),
-(137, 32, 2, 13, 1, 10),
 (138, 37, 2, 15, 84, 40),
-(139, 39, 2, 15, 1, 10),
 (140, 40, 2, 16, 133, 60),
 (141, 41, 2, 16, 29, 20),
 (142, 42, 2, 16, 64, 30),
@@ -214,19 +218,13 @@ INSERT INTO `tbgola` (`golakID`, `partiduaId`, `denboraldiaID`, `jardunaldiaID`,
 (144, 54, 2, 20, 29, 20),
 (145, 58, 2, 22, 133, 60),
 (146, 59, 2, 22, 29, 20),
-(147, 60, 2, 22, 1, 10),
-(151, 32, 2, 13, 1, 10),
 (152, 37, 2, 15, 84, 40),
-(153, 39, 2, 15, 1, 10),
 (154, 42, 2, 16, 64, 30),
-(158, 32, 2, 13, 1, 10),
 (159, 34, 2, 14, 27, 14),
-(160, 35, 2, 14, 1, 12),
 (161, 37, 2, 15, 131, 42),
 (162, 39, 2, 15, 27, 14),
 (163, 43, 2, 17, 131, 42),
-(164, 44, 2, 17, 27, 14),
-(166, 35, 2, 14, 1, 12);
+(164, 44, 2, 17, 27, 14);
 
 -- --------------------------------------------------------
 
@@ -296,7 +294,7 @@ CREATE TABLE `tbjokalaria` (
 --
 
 INSERT INTO `tbjokalaria` (`jokalariId`, `izena`, `taldeID`, `zbkJo`, `adina`) VALUES
-(1, 'Perez Aitzol', 1, '08', 22),
+(1, 'Perez Aitzol', 1, '8', 20),
 (2, 'Arrugaeta Mikel', 1, '05', 35),
 (3, 'Gonzalez Mikel', 1, '10', 19),
 (4, 'Ruiz Unai', 1, '01', 28),
@@ -320,7 +318,7 @@ INSERT INTO `tbjokalaria` (`jokalariId`, `izena`, `taldeID`, `zbkJo`, `adina`) V
 (22, 'Roman Sergio', 1, '22', 39),
 (23, 'Cano David', 1, '23', 18),
 (24, 'Prieto Oscar', 1, '24', 27),
-(25, 'Velasco Dani', 1, '25', 35),
+(25, 'Velasco Dani', 5, '25', 35),
 (26, 'Esteban Iñigo', 2, '07', 24),
 (27, 'Benito Aritz', 2, '14', 31),
 (28, 'Bilbao Aimar', 2, '20', 22),
@@ -395,7 +393,6 @@ INSERT INTO `tbjokalaria` (`jokalariId`, `izena`, `taldeID`, `zbkJo`, `adina`) V
 (97, 'Izagirre Dani', 4, '22', 30),
 (98, 'Zubia Ander', 4, '23', 25),
 (99, 'Aldazabal Unai', 4, '24', 33),
-(100, 'Kortazar Iker', 4, '25', 18),
 (101, 'Ruiz Unai', 5, '01', 40),
 (102, 'Martinez Iker', 5, '02', 27),
 (103, 'Lopez Jon', 5, '03', 34),
@@ -445,7 +442,7 @@ INSERT INTO `tbjokalaria` (`jokalariId`, `izena`, `taldeID`, `zbkJo`, `adina`) V
 (147, 'Calvo Dani', 6, '22', 28),
 (148, 'Soto Ander', 6, '23', 36),
 (149, 'Leon Unai', 6, '24', 20),
-(150, 'Pardo Iker', 6, '25', 32),
+(150, 'Pardo Iker', 5, '25', 32),
 (151, 'Simon Unai', 7, '1', 28),
 (152, 'Lekue Iker', 7, '2', 32),
 (153, 'Vivian Dani', 7, '3', 26),
@@ -972,7 +969,7 @@ ALTER TABLE `tbdenboraldia`
 -- AUTO_INCREMENT de la tabla `tbgola`
 --
 ALTER TABLE `tbgola`
-  MODIFY `golakID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=167;
+  MODIFY `golakID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
 
 --
 -- AUTO_INCREMENT de la tabla `tbjardunaldia`

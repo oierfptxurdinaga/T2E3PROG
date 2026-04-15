@@ -11,9 +11,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
 
-import DAO.MenuAdmDAO;
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.PropertyException;
+
+import modelo.JokalariLista;
 import modelo.Jokalaria;
+
+import DAO.MenuAdmDAO;
 import DAO.ErabiltzaileaDAO;
+import DAO.LogDAO;
+
+import java.io.File;
 
 public class JokalariakIkusi extends JFrame implements ActionListener, WindowListener{
 
@@ -46,6 +56,7 @@ public class JokalariakIkusi extends JFrame implements ActionListener, WindowLis
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
 			try {
+				LogDAO.inicializarLogger();
 				JokalariakIkusi frame = new JokalariakIkusi();
 				frame.setVisible(true);
 			} catch (Exception e) {
@@ -58,29 +69,32 @@ public class JokalariakIkusi extends JFrame implements ActionListener, WindowLis
 	 * Create the frame.
 	 */
 	public JokalariakIkusi() {
-
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
 		setForeground(new Color(0, 0, 128));
 		setFont(new Font("Arial", Font.BOLD, 20));
 		setResizable(false);
 		setTitle("Jokalariak-Ikusi");
 		
-		setBounds(100, 100, 820, 520);
+		
+		setBounds(100, 100, 808, 660);
 		container = new JPanel();
 		container.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(container);
 		container.setLayout(null);
+		setLocationRelativeTo(null);
 		
 		btnItzuli = new JButton("Itzuli");
-		btnItzuli.setBackground(new Color(255, 0, 0));
+		btnItzuli.setBackground(new Color(0, 0, 255));
 		btnItzuli.setForeground(new Color(255, 255, 255));
 		btnItzuli.setFont(new Font("Arial", Font.BOLD, 24));
-		btnItzuli.setBounds(484, 72, 140, 40);
+		btnItzuli.setBounds(512, 8, 140, 40);
 		container.add(btnItzuli);
 		
 		cmbtaldenIzena = new JComboBox<>();
 		cmbtaldenIzena.setForeground(new Color(0, 0, 0));
 		cmbtaldenIzena.setFont(new Font("Arial", Font.BOLD, 20));
-		cmbtaldenIzena.setBounds(10, 74, 180, 38);
+		cmbtaldenIzena.setBounds(10, 74, 195, 38);
 		container.add(cmbtaldenIzena);
 		
 		String [] taldeak= {"▼ TALDEAK","LA MERCED", "MORAZA", "SANTUTXU FC", "CD BASKONIA", "CD ARIZ", "SD HUMORE ONA"};
@@ -101,26 +115,26 @@ public class JokalariakIkusi extends JFrame implements ActionListener, WindowLis
 		taula.setRowHeight(30);
 
 		scrollPane = new JScrollPane(taula);
-		scrollPane.setBounds(168, 142, 628, 261);
+		scrollPane.setBounds(54, 160, 700, 388);
 		container.add(scrollPane);
 		
 		btnXmlsortu = new JButton("XML");
 		btnXmlsortu.setForeground(Color.WHITE);
 		btnXmlsortu.setFont(new Font("Arial", Font.BOLD, 24));
-		btnXmlsortu.setBackground(Color.RED);
-		btnXmlsortu.setBounds(282, 72, 140, 40);
+		btnXmlsortu.setBackground(new Color(0, 0, 255));
+		btnXmlsortu.setBounds(318, 555, 140, 40);
 		container.add(btnXmlsortu);
 		
 		JLabel lblNewLabel = new JLabel("JOKALARIAK IKUSI");
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 34));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(10, 13, 412, 38);
+		lblNewLabel.setBounds(10, 8, 412, 38);
 		container.add(lblNewLabel);
 		
 		lblLogo = new JLabel("LOGO");
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		lblLogo.setBounds(696, 13, 100, 60);
+		lblLogo.setBounds(688, 8, 100, 60);
 		container.add(lblLogo);
 		
 		btnXmlsortu.addActionListener(this);
@@ -140,25 +154,58 @@ public class JokalariakIkusi extends JFrame implements ActionListener, WindowLis
 		        ArrayList<Jokalaria> Jokatera = madao.GuztiaAtera(Tizena);
 				for(Jokalaria j : Jokatera) {
 					dtmTaula.addRow(new Object [] {j.getJokalariId(),j.getIzena(),j.getZbkJo(),j.getGolak()});
-				}
+					}
+				if(ErabiltzaileaDAO.Erabiltzailemota.equals("admin")) {
+						LogDAO.getLogger().info("Administratzailea "+Tizena+" taldea ikusi du.");
+					}else if(ErabiltzaileaDAO.Erabiltzailemota.equals("epaile")) {
+						LogDAO.getLogger().info("Epailea "+Tizena+" taldea ikusi du.");
+					}else {
+						LogDAO.getLogger().info("Erabiltzaile arrunta "+Tizena+" taldea ikusi du.");
+					}
 		 }
 		        
 		 if(o == btnItzuli) {
 			if(ErabiltzaileaDAO.Erabiltzailemota.equals("admin")) {
+				LogDAO.getLogger().info("Administratzaria bere menura bueltatu da.");
 				new MenuAdmin().setVisible(true);
 				
 			}else if(ErabiltzaileaDAO.Erabiltzailemota.equals("epaile")) {
+				LogDAO.getLogger().info("Epailea bere menura bueltatu da.");
 				new MenuEpailea().setVisible(true);
 				
 			}else {
 				new MenuErabiltzailea().setVisible(true);
-				
+				LogDAO.getLogger().info("Erabiltzaile arrunta bere menura bueltatu da.");
 			}
 			dispose();
 			 }
 		 
 		 if(o == btnXmlsortu) {
+			 ArrayList<Jokalaria> lista = new ArrayList<Jokalaria>();
+			 lista = madao.JokalariakAtera(Tizena);
 			 
+			 //Klase agrupatzaileari deitzen diogu:
+			 JokalariLista taldea = new JokalariLista(lista);
+
+			 try {
+				 JAXBContext context = JAXBContext.newInstance(JokalariLista.class);
+				 Marshaller marshaller = context.createMarshaller();
+				 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				 marshaller.marshal(taldea, new File("Xml/"+Tizena+"_Jokalariak.xml"));
+				 JOptionPane.showMessageDialog(this, "XML fitxategia sortua");
+				 if(ErabiltzaileaDAO.Erabiltzailemota.equals("admin")) {
+					 LogDAO.getLogger().info("Administratzaria "+Tizena+"_Jokalaria.xml sortu du.");
+				 }else if(ErabiltzaileaDAO.Erabiltzailemota.equals("epaile")) {
+					 LogDAO.getLogger().info("Epailea "+Tizena+"_Jokalaria.xml sortu du.");
+				 }else {
+					 LogDAO.getLogger().info("Erabiltzaile arrunta "+Tizena+"_Jokalaria.xml sortu du.");
+				 }
+						
+			 }catch(PropertyException e1) {
+				 e1.printStackTrace();
+			 }catch(JAXBException e1) {
+					e1.printStackTrace();
+				}
 		 }
 			
 }

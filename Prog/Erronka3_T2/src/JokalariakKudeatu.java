@@ -26,6 +26,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import DAO.LogDAO;
 import DAO.MenuAdmDAO;
 import modelo.Jokalaria;
 import javax.swing.BorderFactory;
@@ -69,6 +70,7 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					LogDAO.inicializarLogger();
 					JokalariakKudeatu frame = new JokalariakKudeatu();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -82,19 +84,22 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 	 * Create the frame.
 	 */
 	public JokalariakKudeatu() {
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setForeground(new Color(0, 0, 128));
 		setFont(new Font("Arial", Font.BOLD, 20));
 		setResizable(false);
 		setTitle("Jokalariak-Kudeatu");
+		
 
-		setBounds(100, 100, 820, 720);
+		setBounds(100, 100, 808, 660);
 		container = new JPanel();
 		container.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(container);
 		container.setLayout(null);
+		setLocationRelativeTo(null);
 
 		lblIdLangilea = new JLabel("ID Jokalaria");
-		lblIdLangilea.setForeground(new Color(255, 0, 0));
+		lblIdLangilea.setForeground(new Color(0, 0, 255));
 		lblIdLangilea.setFont(new Font("Arial", Font.BOLD, 24));
 		lblIdLangilea.setBounds(43, 112, 160, 40);
 		container.add(lblIdLangilea);
@@ -106,9 +111,9 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 		container.add(txtIDjokalaria);
 
 		lblIzena = new JLabel("Izena");
-		lblIzena.setForeground(new Color(255, 0, 0));
+		lblIzena.setForeground(new Color(0, 0, 255));
 		lblIzena.setFont(new Font("Arial", Font.BOLD, 24));
-		lblIzena.setBounds(43, 162, 115, 40);
+		lblIzena.setBounds(43, 162, 160, 40);
 		container.add(lblIzena);
 
 		txtIzena = new JTextField();
@@ -118,9 +123,9 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 		container.add(txtIzena);
 
 		lblDorsala = new JLabel("Dorsala");
-		lblDorsala.setForeground(new Color(255, 0, 0));
+		lblDorsala.setForeground(new Color(0, 0, 255));
 		lblDorsala.setFont(new Font("Arial", Font.BOLD, 24));
-		lblDorsala.setBounds(43, 212, 115, 40);
+		lblDorsala.setBounds(43, 212, 160, 40);
 		container.add(lblDorsala);
 
 		txtDorsala = new JTextField();
@@ -130,9 +135,9 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 		container.add(txtDorsala);
 
 		lblAdina = new JLabel("Adina");
-		lblAdina.setForeground(new Color(255, 0, 0));
+		lblAdina.setForeground(new Color(0, 0, 255));
 		lblAdina.setFont(new Font("Arial", Font.BOLD, 24));
-		lblAdina.setBounds(43, 262, 115, 40);
+		lblAdina.setBounds(43, 262, 160, 40);
 		container.add(lblAdina);
 
 		txtAdina = new JTextField();
@@ -142,43 +147,44 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 		container.add(txtAdina);
 
 		btnSartu = new JButton("Sartu");
-		btnSartu.setBackground(new Color(255, 0, 0));
+		btnSartu.setBackground(new Color(0, 0, 255));
 		btnSartu.setForeground(new Color(255, 255, 255));
 		btnSartu.setFont(new Font("Arial", Font.BOLD, 24));
-		btnSartu.setBounds(600, 112, 140, 40);
+		btnSartu.setBounds(211, 555, 140, 40);
 		container.add(btnSartu);
 
 		btnEzabatu = new JButton("Ezabatu");
-		btnEzabatu.setBackground(new Color(255, 0, 0));
+		btnEzabatu.setBackground(new Color(0, 0, 255));
 		btnEzabatu.setForeground(new Color(255, 255, 255));
 		btnEzabatu.setFont(new Font("Arial", Font.BOLD, 24));
-		btnEzabatu.setBounds(600, 162, 140, 40);
+		btnEzabatu.setBounds(440, 555, 140, 40);
 		container.add(btnEzabatu);
 
 		btnIrten = new JButton("Itzuli");
-		btnIrten.setBackground(new Color(255, 0, 0));
+		btnIrten.setBackground(new Color(0, 0, 255));
 		btnIrten.setForeground(new Color(255, 255, 255));
 		btnIrten.setFont(new Font("Arial", Font.BOLD, 24));
-		btnIrten.setBounds(600, 262, 140, 40);
+		btnIrten.setBounds(512, 8, 140, 40);
 		container.add(btnIrten);
 
 		lblSailaInfo = new JLabel("JOKALARIEN KUDEAKETA");
 		lblSailaInfo.setForeground(new Color(0, 0, 0));
 		lblSailaInfo.setFont(new Font("Arial", Font.BOLD, 34));
 		lblSailaInfo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblSailaInfo.setBounds(43, 62, 700, 40);
+		lblSailaInfo.setBounds(10, 8, 492, 40);
 		container.add(lblSailaInfo);
 
 		lblSaila = new JLabel("Taldea:");
-		lblSaila.setForeground(new Color(255, 0, 0));
+		lblSaila.setBackground(new Color(255, 255, 255));
+		lblSaila.setForeground(new Color(0, 0, 255));
 		lblSaila.setFont(new Font("Arial", Font.BOLD, 24));
-		lblSaila.setBounds(43, 10, 115, 40);
+		lblSaila.setBounds(43, 60, 160, 40);
 		container.add(lblSaila);
 
 		cmbtaldenIzena = new JComboBox<>();
 		cmbtaldenIzena.setForeground(new Color(0, 0, 0));
 		cmbtaldenIzena.setFont(new Font("Arial", Font.BOLD, 20));
-		cmbtaldenIzena.setBounds(210, 12, 360, 38);
+		cmbtaldenIzena.setBounds(210, 62, 360, 38);
 		container.add(cmbtaldenIzena);
 		
 		String [] taldeak= {"▼ TALDEAK","LA MERCED", "MORAZA", "SANTUTXU FC", "CD BASKONIA", "CD ARIZ", "SD HUMORE ONA"};
@@ -200,13 +206,13 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 		taula.setRowHeight(30);
 
 		scrollPane = new JScrollPane(taula);
-		scrollPane.setBounds(43, 330, 700, 250);
+		scrollPane.setBounds(20, 313, 762, 231);
 		container.add(scrollPane);
 		
 		lblLogo = new JLabel("LOGO");
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		lblLogo.setBounds(696, 10, 100, 60);
+		lblLogo.setBounds(688, 8, 100, 60);
 		container.add(lblLogo);
 	
 		btnSartu.addActionListener(this);
@@ -222,6 +228,7 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 	public void actionPerformed(ActionEvent e) {
 		 Object o = e.getSource();
 		 String Tizena = (String) cmbtaldenIzena.getSelectedItem();
+		 String Jizena=txtIzena.getText();
 		 if(o == cmbtaldenIzena) {
 			 Tizena = (String) cmbtaldenIzena.getSelectedItem();
 			  // Vaciamos la tabla solo al cambiar el combo
@@ -236,7 +243,6 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 		 
 		 if(o == btnSartu) {
 			 int JokalariId=Integer.parseInt(txtIDjokalaria.getText());
-			 String Jizena=txtIzena.getText();
 			 int Jdorsal=Integer.parseInt(txtDorsala.getText());
 			 int Jadina=Integer.parseInt(txtAdina.getText());
 			int Tid = cmbtaldenIzena.getSelectedIndex();
@@ -249,6 +255,8 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 			 txtIzena.setText("");
 			 txtAdina.setText("");
 			 txtDorsala.setText("");
+			 
+			 LogDAO.getLogger().info("Administratzailea jokalari berri bat sortu du: Izena: "+Jizena+" Dorsala: "+Jdorsal+"Adina: "+Jadina+" Taldea: "+Tizena);
 			 
 		 }
 		 
@@ -267,6 +275,7 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 		        if(option == JOptionPane.YES_OPTION) {
 		        	 madao.JokalariakEzabatu(JokalariId); 
 		        	 dtmTaula.removeRow(fila);
+		        	 LogDAO.getLogger().info("Administratzailea "+Jizena+" izeneko jokalari bat ezabatu du.");
 		        	}else if(option == JOptionPane.NO_OPTION) {
 		        		txtIDjokalaria.setText("");
 		   			 	txtIzena.setText("");
@@ -279,6 +288,7 @@ public class JokalariakKudeatu extends JFrame implements ActionListener,WindowLi
 		 
 		 if(o == btnIrten) {
 		 new MenuAdmin().setVisible(true);
+		 LogDAO.getLogger().info("Administratzaria bere menura bueltatu da.");
 		 dispose();
 		 }
 		 
