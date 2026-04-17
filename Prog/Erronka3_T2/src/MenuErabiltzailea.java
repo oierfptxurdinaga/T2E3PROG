@@ -6,14 +6,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Erabiltzaile arruntaren (ikuslearen/behatzailearen) menu nagusia bistaratzen duen interfaze grafikoa.
+ * Hemendik aplikazioaren irakurketa-funtzionalitateetara soilik nabigatu daiteke 
+ * (taldeak ikusi, jokalariak ikusi eta sailkapena ikusi).
+ * @author [HIIM/T2]
+ * @version 1.0
+ */
 public class MenuErabiltzailea extends JFrame implements ActionListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	// Componentes
+    // Componentes
     private JLabel lblTitulo;
 
     private JButton btnTaldeakIkusi;
@@ -22,10 +26,18 @@ public class MenuErabiltzailea extends JFrame implements ActionListener {
 
     private JButton btnSaioaAmaitu;
 
+    /**
+     * MenuErabiltzailea klasearen eraikitzailea.
+     * Interfaze grafikoaren osagaiak hasieratzen ditu.
+     */
     public MenuErabiltzailea() {
         initComponents();
     }
 
+    /**
+     * Leihoaren elementu grafiko guztiak (etiketak, botoiak eta panelak) 
+     * sortu, kokatu eta konfiguratzen ditu. Baita ere gertaeren entzuleak esleitzen ditu.
+     */
     private void initComponents() {
 
         // Panel principal
@@ -74,36 +86,47 @@ public class MenuErabiltzailea extends JFrame implements ActionListener {
         btnSaioaAmaitu.addActionListener(this);
     }
 
+    /**
+     * Aplikazioa abiarazteko metodo nagusia.
+     * MenuErabiltzailea leihoa ikusgarri egiten du.
+     * @param args komando-lerroko argumentuak
+     */
     public static void main(String[] args) {
         new MenuErabiltzailea().setVisible(true);
     }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object o = e.getSource();
-		
-		if(o==btnTaldeakIkusi) {
-			new TaldeakIkusi().setVisible(true);
-			LogDAO.getLogger().info("Erabiltzaile arrunta TaldeakIkusi altalera sartu da.");
-			dispose();
-		}
-		
-		if(o==btnJokalariakIkusi) {
-			new JokalariakIkusi().setVisible(true);
-			LogDAO.getLogger().info("Erabiltzaile arrunta JokalariakIkusi atalera sartu da.");
-			dispose();
-		}
-		
-		if(o==btnSailkapenaIkusi) {
-			new SailkapenaIkusi().setVisible(true);
-			LogDAO.getLogger().info("Erabiltzaile arrunta Sailkapena altalera sartu da.");
-			dispose();
-		}
-		
-		if(o==btnSaioaAmaitu) {
-			new Saioa_Hasi().setVisible(true);
-			LogDAO.getLogger().info("Erabiltzaile arrunta sahioa amitu du.");
-			dispose();
-		}
-	}
+    /**
+     * Menuko botoietako bat sakatzean exekutatzen da.
+     * Hautatutako botoiaren arabera, dagokion informazio-leihoa irekitzen du, 
+     * ekintza log-ean erregistratzen du eta uneko menua ixten du.
+     * @param e Gertaeraren informazioa biltzen duen ActionEvent objektua.
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object o = e.getSource();
+        
+        if(o==btnTaldeakIkusi) {
+            new TaldeakIkusi().setVisible(true);
+            LogDAO.getLogger().info("Erabiltzaile arrunta TaldeakIkusi altalera sartu da.");
+            dispose();
+        }
+        
+        if(o==btnJokalariakIkusi) {
+            new JokalariakIkusi().setVisible(true);
+            LogDAO.getLogger().info("Erabiltzaile arrunta JokalariakIkusi atalera sartu da.");
+            dispose();
+        }
+        
+        if(o==btnSailkapenaIkusi) {
+            new SailkapenaIkusi().setVisible(true);
+            LogDAO.getLogger().info("Erabiltzaile arrunta Sailkapena altalera sartu da.");
+            dispose();
+        }
+        
+        if(o==btnSaioaAmaitu) {
+            new Saioa_Hasi().setVisible(true);
+            LogDAO.getLogger().info("Erabiltzaile arrunta sahioa amitu du.");
+            dispose();
+        }
+    }
 }

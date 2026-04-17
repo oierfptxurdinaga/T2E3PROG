@@ -9,11 +9,20 @@ import java.util.ArrayList;
 import modelo.Partidua;
 import ConexioaBD.Conexioa_BD;
 
+/**
+ * Epailearen menuko datu-baseko eragiketak (partiduak ikusi, golak sartu eta emaitzak ezabatu) 
+ * kudeatzen dituen DAO klasea.
+ */
 public class MenuEpaileaDAO {
 	Connection coon = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+	/**
+	 * Denboraldi zehatz bateko partidu guztien zerrenda lortzen du datu-basetik.
+	 * @param DenboIzen Denboraldiaren izena.
+	 * @return Partidua objektuen ArrayList bat.
+	 */
 	public ArrayList<Partidua> PartiduakAtera(String DenboIzen) {
 		
 		ArrayList<Partidua> PartiduGuztiak = new ArrayList<Partidua>();
@@ -53,6 +62,16 @@ public class MenuEpaileaDAO {
 	}
 	
 	
+	/**
+	 * Partidu batean sartutako gol bat erregistratzen du: golen taulan datua sartzen du
+	 * eta partiduaren taulan dagokion markagailua (etxekoa edo kanpokoa) eguneratzen du.
+	 * @param partiduaId Partiduaren identifikadorea.
+	 * @param jokalariaId Gola sartu duen jokalariaren identifikadorea.
+	 * @param minutua Gola sartu den minutua.
+	 * @param jardunalID Jardunaldiaren identifikadorea.
+	 * @param esLocal true etxeko taldeak sartu badu, false kanpokoak sartu badu.
+	 * @return true eragiketa ondo egin bada, false bestela.
+	 */
 	public boolean registrarGol(int partiduaId, int jokalariaId, int minutua, int jardunalID, boolean esLocal) {
 		
 		String sqlGola = "INSERT INTO `tbgola`(`denboraldiaID`,`partiduaId`, `jardunaldiaID`, `jokalariId`, `minutua`) VALUES (3,?,?,?,?)";
@@ -79,6 +98,11 @@ public class MenuEpaileaDAO {
 	    }
 	}
 	
+	/**
+	 * Partidu baten emaitzak hutsean uzten ditu (golak 0-ra pasatuz) 
+	 * eta partidu horretan sartutako gol guztien erregistroak ezabatzen ditu.
+	 * @param partiduaId Emaitzak ezabatu nahi diren partiduaren identifikadorea.
+	 */
 	public void EmaitzakEzabatu(int partiduaId) {
 		
 		String sql="UPDATE `tbpartidua` SET `golLokal` = 0, `golKanpoko` = 0\r\n"

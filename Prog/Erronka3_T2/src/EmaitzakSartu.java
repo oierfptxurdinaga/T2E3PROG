@@ -19,9 +19,7 @@ import java.awt.Color;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +31,13 @@ import modelo.Jokalaria;
 import modelo.Partidua;
 import javax.swing.BorderFactory;
 
+/**
+ * Epaileek partiden emaitzak (golak) sartzeko eta kudeatzeko interfaze grafikoa.
+ * JFrame batetik heredatzen du eta ActionListener zein MouseListener inplementatzen ditu
+ * botoien eta saguaren ekintzak kontrolatzeko.
+ * * @author [HIIM/T2]
+ * @version 1.0
+ */
 public class EmaitzakSartu extends JFrame  implements ActionListener, MouseListener{
 
 	private static final long serialVersionUID = 1L;
@@ -68,7 +73,9 @@ public class EmaitzakSartu extends JFrame  implements ActionListener, MouseListe
 	private JLabel lblKanpokoak;
 
 	/**
-	 * Launch the application.
+	 * Aplikazioa abiarazteko metodo nagusia (main).
+	 * Log-a hasieratu eta EmaitzakSartu leihoa ikusgarri egiten du.
+	 * * @param args komando-lerroko argumentuak
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -85,7 +92,9 @@ public class EmaitzakSartu extends JFrame  implements ActionListener, MouseListe
 	}
 
 	/**
-	 * Create the frame.
+	 * EmaitzakSartu klasearen eraikitzailea.
+	 * Leihoaren elementu grafiko guztiak (taulak, botoiak, etiketak...) sortu, 
+	 * kokatu eta hasieratzen ditu. Baita ere gertaeren entzuleak (listeners) esleitzen ditu.
 	 */
 	public EmaitzakSartu() {
 		setResizable(false);
@@ -156,11 +165,6 @@ public class EmaitzakSartu extends JFrame  implements ActionListener, MouseListe
 		tableK.setFont(new Font("Arial", Font.BOLD, 15));
 		scrollPaneKanpokoak.setViewportView(tableK);
 		
-		/*JComboBox Jardunaldiak = new JComboBox();
-		Jardunaldiak.setModel(new DefaultComboBoxModel(new String[] {"▼ JARDUNALDIA"}));
-		Jardunaldiak.setBounds(282, 255, 161, 32);
-		contentPane.add(Jardunaldiak);*/
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(36, 294, 720, 250);
 		contentPane.add(scrollPane);
@@ -213,6 +217,11 @@ public class EmaitzakSartu extends JFrame  implements ActionListener, MouseListe
 		btnEzabatu.addActionListener(this);
 	}
 
+	/**
+	 * Erabiltzaileak interfazean egiten dituen ekintzak (botoiak sakatu, 
+	 * goitibeherako zerrenda aldatu) prozesatzen ditu.
+	 * * @param e Gertaeraren informazioa biltzen duen ActionEvent objektua.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
@@ -318,6 +327,12 @@ public class EmaitzakSartu extends JFrame  implements ActionListener, MouseListe
 			dispose();
 		}
 }
+	/**
+	 * Saguaren klikak kudeatzen ditu. Partiden taulan (taula nagusian) 
+	 * klik egiterakoan, hautatutako partidaren talde lokala eta kanpokoa lortzen ditu,
+	 * eta talde bakoitzeko jokalariak dagozkion alboko tauletan kargatzen ditu.
+	 * * @param e Gertaeraren informazioa biltzen duen MouseEvent objektua.
+	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		
@@ -339,24 +354,40 @@ public class EmaitzakSartu extends JFrame  implements ActionListener, MouseListe
         
       }
 
+	/**
+	 * Saguaren botoia sakatzean exekutatzen da (ez da erabiltzen).
+	 * @param e MouseEvent objektua
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Saguaren botoia askatzean exekutatzen da (ez da erabiltzen).
+	 * @param e MouseEvent objektua
+	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Sagua osagaiaren gainean sartzean exekutatzen da (ez da erabiltzen).
+	 * @param e MouseEvent objektua
+	 */
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Sagua osagaitik irtetean exekutatzen da (ez da erabiltzen).
+	 * @param e MouseEvent objektua
+	 */
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub

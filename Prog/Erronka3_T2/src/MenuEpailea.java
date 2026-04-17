@@ -6,14 +6,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Epailearen (arbitroaren) menu nagusia bistaratzen duen interfaze grafikoa.
+ * Hemendik aplikazioaren funtzionalitate ezberdinetara nabigatu daiteke 
+ * (taldeak eta jokalariak ikusi, sailkapena ikusi, eta bereziki, partiden emaitzak sartu).
+ * @author [HIIM/T2]
+ * @version 1.0
+ */
 public class MenuEpailea extends JFrame implements ActionListener {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	// Componentes
+    // Componentes
     private JLabel lblTitulo;
 
     private JButton btnTaldeakIkusi;
@@ -23,10 +27,18 @@ public class MenuEpailea extends JFrame implements ActionListener {
 
     private JButton btnSaioaAmaitu;
 
+    /**
+     * MenuEpailea klasearen eraikitzailea.
+     * Interfaze grafikoaren osagaiak hasieratzen ditu.
+     */
     public MenuEpailea() {
         initComponents();
     }
 
+    /**
+     * Leihoaren elementu grafiko guztiak (etiketak, botoiak eta panelak) 
+     * sortu, kokatu eta konfiguratzen ditu. Baita ere gertaeren entzuleak esleitzen ditu.
+     */
     private void initComponents() {
 
         // Panel principal
@@ -81,44 +93,55 @@ public class MenuEpailea extends JFrame implements ActionListener {
         btnSaioaAmaitu.addActionListener(this);
     }
 
+    /**
+     * Aplikazioa abiarazteko metodo nagusia.
+     * Log-a hasieratu eta MenuEpailea leihoa ikusgarri egiten du.
+     * @param args komando-lerroko argumentuak
+     */
     public static void main(String[] args) {
-    	LogDAO.inicializarLogger();
+        LogDAO.inicializarLogger();
         new MenuEpailea().setVisible(true);
     }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		Object o = e.getSource();
-		
-		if(o==btnTaldeakIkusi) {
-			new TaldeakIkusi().setVisible(true);
-			LogDAO.getLogger().info("Epailea TaldeakIkusi altalera sartu da.");
-			dispose();
-		}
-		
-		if(o==btnJokalariakIkusi) {
-			new JokalariakIkusi().setVisible(true);
-			LogDAO.getLogger().info("Epailea JokalariakIkusi atalera sartu da.");
-			dispose();
-		}
-				
-		if(o==btnSailkapena) {
-			new SailkapenaIkusi().setVisible(true);
-			LogDAO.getLogger().info("Epailea Sailkapena altalera sartu da.");
-			dispose();
-		}
+    /**
+     * Menuko botoietako bat sakatzean exekutatzen da.
+     * Hautatutako botoiaren arabera, dagokion leihoa irekitzen du, 
+     * ekintza log-ean erregistratzen du eta uneko menua ixten du.
+     * @param e Gertaeraren informazioa biltzen duen ActionEvent objektua.
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object o = e.getSource();
+        
+        if(o==btnTaldeakIkusi) {
+            new TaldeakIkusi().setVisible(true);
+            LogDAO.getLogger().info("Epailea TaldeakIkusi altalera sartu da.");
+            dispose();
+        }
+        
+        if(o==btnJokalariakIkusi) {
+            new JokalariakIkusi().setVisible(true);
+            LogDAO.getLogger().info("Epailea JokalariakIkusi atalera sartu da.");
+            dispose();
+        }
+                
+        if(o==btnSailkapena) {
+            new SailkapenaIkusi().setVisible(true);
+            LogDAO.getLogger().info("Epailea Sailkapena altalera sartu da.");
+            dispose();
+        }
 
-		if(o==btnEmaitzakSartu) {
-			new EmaitzakSartu().setVisible(true);
-			LogDAO.getLogger().info("Epailea EmaitzakSartu atalera sartu da.");
-			dispose();
-		}
-		
-		if(o==btnSaioaAmaitu) {
-			new Saioa_Hasi().setVisible(true);
-			LogDAO.getLogger().info("Epailea sahioa amaitu du.");
-			dispose();
-		}		
-		
-	}
+        if(o==btnEmaitzakSartu) {
+            new EmaitzakSartu().setVisible(true);
+            LogDAO.getLogger().info("Epailea EmaitzakSartu atalera sartu da.");
+            dispose();
+        }
+        
+        if(o==btnSaioaAmaitu) {
+            new Saioa_Hasi().setVisible(true);
+            LogDAO.getLogger().info("Epailea sahioa amaitu du.");
+            dispose();
+        }       
+        
+    }
 }

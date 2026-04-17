@@ -34,6 +34,13 @@ import java.awt.Component;
 import javax.swing.table.TableModel;
 import javax.swing.BorderFactory;
 
+/**
+ * Jokalariak talde batetik bestera aldatzeko (fitxaketak) interfaze grafikoa.
+ * Erabiltzaileari jatorrizko taldea eta helburuko taldea aukeratzeko aukera ematen dio,
+ * eta hautatutako jokalaria taldez aldatzen du datu-basean.
+ * * @author [HIIM/T2]
+ * @version 1.0
+ */
 public class JokalariakAldatu extends JFrame implements ActionListener{
 
 	private static final long serialVersionUID = 1L;
@@ -55,7 +62,9 @@ public class JokalariakAldatu extends JFrame implements ActionListener{
 	
 	MenuAdmDAO madao = new MenuAdmDAO();
 	/**
-	 * Launch the application.
+	 * Aplikazioa abiarazteko metodo nagusia (main).
+	 * Log-a hasieratu eta JokalariakAldatu leihoa ikusgarri egiten du.
+	 * * @param args komando-lerroko argumentuak
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -72,7 +81,9 @@ public class JokalariakAldatu extends JFrame implements ActionListener{
 	}
 
 	/**
-	 * Create the frame.
+	 * JokalariakAldatu klasearen eraikitzailea.
+	 * Leihoaren elementu grafikoak (zerrendak, taulak, botoiak...) sortu 
+	 * eta hasieratzen ditu, dagozkien entzuleak (listeners) esleituz.
 	 */
 	public JokalariakAldatu() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -147,6 +158,13 @@ public class JokalariakAldatu extends JFrame implements ActionListener{
 		
 	}
 
+	/**
+	 * Interfazearen ekintzak kudeatzen ditu. Jatorrizko taldea aukeratzean 
+	 * jokalariak kargatzen ditu, eta "Aldatu" botoia sakatzean jokalari baten
+	 * talde aldaketa prozesatzen du baldintzak betetzen badira.
+	 * Baita ere atzera egiteko botoia kontrolatzen du erabiltzailearen rolaren arabera.
+	 * * @param e Gertaeraren informazioa biltzen duen ActionEvent objektua.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		 Object o = e.getSource();
@@ -196,4 +214,3 @@ public class JokalariakAldatu extends JFrame implements ActionListener{
 				 }
 			}
 		 }
-

@@ -10,12 +10,21 @@ import modelo.Jokalaria;
 import modelo.Sailkapena;
 import ConexioaBD.Conexioa_BD;
 
+/**
+ * Administratzailearen menuko datu-baseko eragiketak (jokalariak lortu, sartu, ezabatu, aldatu eta sailkapena ikusi) 
+ * kudeatzen dituen DAO klasea.
+ */
 public class MenuAdmDAO {
 	
 	Connection coon = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 	
+	/**
+	 * Talde baten izena emanda, talde horretako jokalarien zerrenda lortzen du datu-basetik.
+	 * @param Tizena Taldearen izena.
+	 * @return Jokalaria objektuen ArrayList bat.
+	 */
 	public ArrayList<Jokalaria> JokalariakAtera(String Tizena) {
 		
 		//Sql a sortzen dugu.
@@ -48,6 +57,16 @@ public class MenuAdmDAO {
 		
 		return Jokatera;
 	}
+	
+	/**
+	 * Jokalari berri bat datu-basean txertatzen du.
+	 * @param Tizena Taldearen izena.
+	 * @param Jizena Jokalariaren izena.
+	 * @param JokalariId Jokalariaren identifikadorea.
+	 * @param Jdorsal Jokalariaren dortsal zenbakia.
+	 * @param Jadina Jokalariaren adina.
+	 * @param Tid Taldearen identifikadorea.
+	 */
 	public void JokalariBerriakSartu(String Tizena, String Jizena,int JokalariId,int Jdorsal,int Jadina,int Tid) {
 		
 			
@@ -72,6 +91,11 @@ public class MenuAdmDAO {
 		}
 	}
 	
+	/**
+	 * Emandako ID-a duen jokalaria datu-basetik ezabatzen du.
+	 * @param JokalariId Ezabatu nahi den jokalariaren ID-a.
+	 * @return true ezabaketa ondo egin bada, false bestela.
+	 */
 	public boolean JokalariakEzabatu(int JokalariId) {
 		String sql="DELETE FROM tbjokalaria WHERE jokalariId =?";
 		
@@ -90,6 +114,11 @@ public class MenuAdmDAO {
 	}			
 }
 	
+	/**
+	 * Talde bateko jokalariak eta sartu duten gol kopuru totala ateratzen ditu.
+	 * @param Tizena Taldearen izena.
+	 * @return Jokalaria objektuen ArrayList bat, gol datuekin.
+	 */
 	public ArrayList<Jokalaria> GuztiaAtera(String Tizena) {
 		ArrayList<Jokalaria> DatuakAtera = new ArrayList<Jokalaria>();
 		String sql="SELECT j.jokalariId, j.izena, j.adina, j.zbkJo,COUNT(g.golakID)as G_T\r\n"
@@ -123,6 +152,11 @@ public class MenuAdmDAO {
 		return DatuakAtera;
 	}
 	
+	/**
+	 * Kanpoko talde bateko jokalariak eta euren gol kopuru totala ateratzen ditu.
+	 * @param Tizena_K Kanpoko taldearen izena.
+	 * @return Jokalaria objektuen ArrayList bat, gol datuekin.
+	 */
 	public ArrayList<Jokalaria> KanpokoakAtera(String Tizena_K) {
 		ArrayList<Jokalaria> DatuakAtera = new ArrayList<Jokalaria>();
 		String sql="SELECT j.jokalariId, j.izena, j.adina, j.zbkJo,COUNT(g.golakID)as G_T\r\n"
@@ -156,6 +190,12 @@ public class MenuAdmDAO {
 		return DatuakAtera;
 	}
 	
+	/**
+	 * Emandako jokalari baten taldea aldatzen du datu-basean.
+	 * @param Jizena_E Aldatu nahi den jokalariaren izena.
+	 * @param kanpoko_fila Talde berriaren ID-a.
+	 * @return true eguneraketa ondo egin bada, false bestela.
+	 */
 	public boolean JokalariakAldatu(String Jizena_E, int kanpoko_fila) {	
 	boolean	JokAldatu = false;
 	String sql="UPDATE `tbjokalaria` SET `taldeID`= ? WHERE `izena` = ?";	
@@ -177,6 +217,11 @@ public class MenuAdmDAO {
 		return false;
 	}
 	
+	/**
+	 * Denboraldi zehatz bateko sailkapenaren datuak lortzen ditu bista batetik.
+	 * @param Denb_Zenbakia Denboraldiaren zenbakia (bistaren izenari amaieran gehitzeko).
+	 * @return Sailkapena objektuen ArrayList bat.
+	 */
 	public ArrayList<Sailkapena> SailkapenAtera(int Denb_Zenbakia ) {
 		ArrayList<Sailkapena>Sailakpenak = new ArrayList<Sailkapena>();
 		

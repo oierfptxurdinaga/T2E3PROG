@@ -6,11 +6,17 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Administratzailearen menu nagusia bistaratzen duen interfaze grafikoa.
+ * Hemendik aplikazioaren funtzionalitate ezberdinetara (taldeak ikusi, 
+ * jokalariak kudeatu, sailkapena...) nabigatu daiteke.
+ * @author [HIIM/T2]
+ * @version 1.0
+ */
 public class MenuAdmin extends JFrame implements ActionListener {
 
     /**
-	 * 
-	 */
+	 * */
 	private static final long serialVersionUID = 1L;
 
 	// Componentes
@@ -24,10 +30,18 @@ public class MenuAdmin extends JFrame implements ActionListener {
 
     private JButton btnSaioaAmaitu;
 
+    /**
+     * MenuAdmin klasearen eraikitzailea.
+     * Interfaze grafikoaren osagaiak hasieratzen ditu.
+     */
     public MenuAdmin() {
         initComponents();
     }
 
+    /**
+     * Leihoaren elementu grafiko guztiak (etiketak, botoiak eta panelak) 
+     * sortu, kokatu eta konfiguratzen ditu. Baita ere gertaeren entzuleak esleitzen ditu.
+     */
     private void initComponents() {
 
         // Panel principal
@@ -87,11 +101,22 @@ public class MenuAdmin extends JFrame implements ActionListener {
         btnSaioaAmaitu.addActionListener(this);
     }
 
+    /**
+     * Aplikazioa abiarazteko metodo nagusia.
+     * Log-a hasieratu eta MenuAdmin leihoa ikusgarri egiten du.
+     * @param args komando-lerroko argumentuak
+     */
     public static void main(String[] args) {
     	LogDAO.inicializarLogger();
         new MenuAdmin().setVisible(true);
     }
 
+    /**
+     * Menuko botoietako bat sakatzean exekutatzen da.
+     * Hautatutako botoiaren arabera, dagokion leihoa irekitzen du, 
+     * ekintza log-ean erregistratzen du eta uneko menua ixten du.
+     * @param e Gertaeraren informazioa biltzen duen ActionEvent objektua.
+     */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();

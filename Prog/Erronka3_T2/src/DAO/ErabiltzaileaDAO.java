@@ -6,16 +6,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import ConexioaBD.Conexioa_BD;
 
+/**
+ * Erabiltzaileen datuak (login-a egiteko) kudeatzen dituen DAO klasea.
+ * Datu-basearekin konektatzen da erabiltzaile-izenak eta pasahitzak egiaztatzeko.
+ */
 public class ErabiltzaileaDAO {
 
 	Connection coon = null;
 	PreparedStatement ps = null;
 	ResultSet rs = null;
 
+	/**
+	 * Datu-basean bilatzen du emandako erabiltzaile-izena existitzen den ala ez.
+	 * @param EraIzena Bilatu nahi den erabiltzailearen izena.
+	 * @return Datu-basetik ateratako erabiltzaile-izena.
+	 */
 	public String ErabitzaielIzenaAtera(String EraIzena) {
 		
 		String eizn="";
-		String sql="SELECT `erabitzaile_izena` FROM `terabiltzailea_prog` WHERE erabitzaile_izena=? ";
+		String sql="SELECT `erabitzaile_izena` FROM `terabiltzaile_prog` WHERE erabitzaile_izena=? ";
 		
 		try {
 			coon=Conexioa_BD.conexioa();
@@ -35,6 +44,11 @@ public class ErabiltzaileaDAO {
 		return eizn;
 	}
 	
+	/**
+	 * Datu-basean bilatzen du emandako erabiltzailearen pasahitza.
+	 * @param EraIzena Bilatu nahi den erabiltzailearen izena.
+	 * @return Datu-basetik ateratako pasahitza.
+	 */
 	public String ErabitzaielPasahitzaAtera(String EraIzena) {
 		String epass="";
 		String sql="SELECT `pasahitza` FROM `terabiltzailea_prog` WHERE erabitzaile_izena=? ";
@@ -57,8 +71,10 @@ public class ErabiltzaileaDAO {
 		return epass;
 	}
 	
+	/**
+	 * Sistemara sartu den erabiltzailearen rola gordetzen duen aldagai estatikoa.
+	 */
 	public static String Erabiltzailemota; {
 	}
 	
 	}
-

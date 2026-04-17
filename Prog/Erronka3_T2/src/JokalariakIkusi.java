@@ -25,6 +25,12 @@ import DAO.LogDAO;
 
 import java.io.File;
 
+/**
+ * Jokalariak taldearen arabera bistaratzeko eta informazio hori XML fitxategi 
+ * batean esportatzeko interfaze grafikoa.
+ * @author [HIIM/T2]
+ * @version 1.0
+ */
 public class JokalariakIkusi extends JFrame implements ActionListener, WindowListener{
 
 	private static final long serialVersionUID = 202405164L;
@@ -51,7 +57,9 @@ public class JokalariakIkusi extends JFrame implements ActionListener, WindowLis
 
 	
 	/**
-	 * Launch the application.
+	 * Aplikazioa abiarazteko metodo nagusia (main).
+	 * Log-a hasieratu eta JokalariakIkusi leihoa ikusgarri egiten du.
+	 * @param args komando-lerroko argumentuak
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
@@ -66,7 +74,9 @@ public class JokalariakIkusi extends JFrame implements ActionListener, WindowLis
 	}
 
 	/**
-	 * Create the frame.
+	 * JokalariakIkusi klasearen eraikitzailea.
+	 * Leihoaren elementu grafikoak (zerrenda, taula, botoiak...) sortu 
+	 * eta hasieratzen ditu, dagozkien entzuleak (listeners) esleituz.
 	 */
 	public JokalariakIkusi() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -141,6 +151,13 @@ public class JokalariakIkusi extends JFrame implements ActionListener, WindowLis
 		btnItzuli.addActionListener(this);
 		cmbtaldenIzena.addActionListener(this);
 	}
+	
+	/**
+	 * Interfazearen ekintzak kudeatzen ditu. Taldea aukeratzean jokalariak taulan
+	 * kargatzen ditu. "XML" botoia sakatzean JAXB erabiliz XML fitxategia sortzen du,
+	 * eta "Itzuli" botoiarekin aurreko menura bueltatzen da erabiltzaile motaren arabera.
+	 * @param e Gertaeraren informazioa biltzen duen ActionEvent objektua.
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object o = e.getSource();
@@ -210,42 +227,69 @@ public class JokalariakIkusi extends JFrame implements ActionListener, WindowLis
 			
 }
 
+	/**
+	 * Leihoa irekitzean exekutatzen da (ez da erabiltzen).
+	 * @param e WindowEvent objektua
+	 */
 	@Override
 	public void windowOpened(WindowEvent e) {
 		
 	}
 	
-
+	/**
+	 * Leihoa ixtear dagoenean exekutatzen da (ez da erabiltzen).
+	 * @param e WindowEvent objektua
+	 */
 	@Override
 	public void windowClosing(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Leihoa itxi ondoren exekutatzen da (ez da erabiltzen).
+	 * @param e WindowEvent objektua
+	 */
 	@Override
 	public void windowClosed(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Leihoa minimizatzean exekutatzen da (ez da erabiltzen).
+	 * @param e WindowEvent objektua
+	 */
 	@Override
 	public void windowIconified(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Leihoa bere jatorrizko tamainara itzultzean exekutatzen da (ez da erabiltzen).
+	 * @param e WindowEvent objektua
+	 */
 	@Override
 	public void windowDeiconified(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Leihoa aktibatzean exekutatzen da (ez da erabiltzen).
+	 * @param e WindowEvent objektua
+	 */
 	@Override
 	public void windowActivated(WindowEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Leihoa desaktibatzean exekutatzen da (ez da erabiltzen).
+	 * @param e WindowEvent objektua
+	 */
 	@Override
 	public void windowDeactivated(WindowEvent e) {
 		// TODO Auto-generated method stub

@@ -8,10 +8,18 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.Level;
 
+/**
+ * Aplikazioaren gertaerak (log-ak) fitxategi batean erregistratzeko kudeatzailea.
+ * Eguneroko fitxategiak sortzen ditu ekintza guztiak gordetzeko.
+ */
 public class LogDAO {
     // Programa guztirako instantzia bat sortzen dugu:
     private static final Logger logger = Logger.getLogger("Hiim.log");
 
+    /**
+     * Logger-a hasieratzen du. "Log" karpetan eguneko datarekin fitxategi bat sortzen du 
+     * (edo dagoenari informazioa gehitzen dio) eta formatu sinplea ezartzen dio.
+     */
     public static void inicializarLogger() {
         try {
             // "true" ipintzen dugu berriro ejekutatzerakoan dagoen logina ez ezabatzeko:
@@ -27,6 +35,11 @@ public class LogDAO {
         }
     }
 
+    /**
+     * Programako beste klaseetatik Logger instantzia eskuratzeko metodoa,
+     * mezu berriak (info, warning, error...) idatzi ahal izateko.
+     * @return Aplikazioaren Logger objektua.
+     */
     public static Logger getLogger() {
         return logger;
     }
