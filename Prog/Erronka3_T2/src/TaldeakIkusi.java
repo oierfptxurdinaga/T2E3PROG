@@ -52,7 +52,6 @@ public class TaldeakIkusi extends JFrame implements ActionListener, WindowListen
     private JTextField txtCdAriz;
     private JTextField txtMartelPablo;
     private JTextField txtSoloartezelaia;
-    private JLabel lblLogo;
 
     /**
      * Aplikazioa abiarazteko metodo nagusia.
@@ -268,12 +267,6 @@ public class TaldeakIkusi extends JFrame implements ActionListener, WindowListen
         txtSoloartezelaia.setColumns(10);
         txtSoloartezelaia.setBounds(544, 475, 115, 20);
         contentPane.add(txtSoloartezelaia);
-        
-        lblLogo = new JLabel("LOGO");
-        lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        lblLogo.setBounds(688, 8, 100, 60);
-        contentPane.add(lblLogo);
         
         JSeparator separator_1 = new JSeparator();
         separator_1.setBounds(0, 0, 1, 2);

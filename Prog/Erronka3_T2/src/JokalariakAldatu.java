@@ -145,12 +145,6 @@ public class JokalariakAldatu extends JFrame implements ActionListener{
 		btnAldatu.setBounds(318, 555, 140, 40);
 		contentPane.add(btnAldatu);
 		
-		JLabel lblLogo = new JLabel("LOGO");
-		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		lblLogo.setBounds(682, 3, 100, 60);
-		contentPane.add(lblLogo);
-		
 		comboBox_Etxeko_T.addActionListener(this);
 		comboBox_Kanpoko_T.addActionListener(this);
 		btnItzuli.addActionListener(this);

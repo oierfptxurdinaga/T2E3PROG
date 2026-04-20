@@ -24,7 +24,7 @@ public class ErabiltzaileaDAO {
 	public String ErabitzaielIzenaAtera(String EraIzena) {
 		
 		String eizn="";
-		String sql="SELECT `erabitzaile_izena` FROM `terabiltzaile_prog` WHERE erabitzaile_izena=? ";
+		String sql="SELECT `erabitzaile_izena` FROM `terabiltzailea_prog` WHERE erabitzaile_izena=? ";
 		
 		try {
 			coon=Conexioa_BD.conexioa();

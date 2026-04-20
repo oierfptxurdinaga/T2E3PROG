@@ -53,7 +53,6 @@ public class JokalariakIkusi extends JFrame implements ActionListener, WindowLis
 	private JComboBox<String> cmbtaldenIzena;
 	
 	MenuAdmDAO madao = new MenuAdmDAO();
-	private JLabel lblLogo;
 
 	
 	/**
@@ -140,12 +139,6 @@ public class JokalariakIkusi extends JFrame implements ActionListener, WindowLis
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(10, 8, 412, 38);
 		container.add(lblNewLabel);
-		
-		lblLogo = new JLabel("LOGO");
-		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-		lblLogo.setBounds(688, 8, 100, 60);
-		container.add(lblLogo);
 		
 		btnXmlsortu.addActionListener(this);
 		btnItzuli.addActionListener(this);

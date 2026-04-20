@@ -33,6 +33,8 @@ public class Sailkapena {
 		TPTS = tPTS;
 	}
 	
+	public Sailkapena() {}
+	
 	/**
 	 * Taldearen identifikadorea lortzen du.
 	 * @return Taldearen ID-a.

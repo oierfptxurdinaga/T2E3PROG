@@ -188,12 +188,6 @@ public class EmaitzakSartu extends JFrame  implements ActionListener, MouseListe
 			btnEzabatu.setBounds(440, 555, 140, 40);
 			contentPane.add(btnEzabatu);
 			
-			JLabel lblLogo = new JLabel("LOGO");
-			lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-			lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-			lblLogo.setBounds(688, 8, 100, 60);
-			contentPane.add(lblLogo);
-			
 			lblLokalak = new JLabel("Lokalak");
 			lblLokalak.setHorizontalAlignment(SwingConstants.CENTER);
 			lblLokalak.setForeground(Color.BLUE);

@@ -36,7 +36,6 @@ public class SailkapenaIkusi extends JFrame implements ActionListener {
     private JTable table;
     
     MenuAdmDAO madao = new MenuAdmDAO();
-    private JLabel lblLogo;
     
     /**
      * SailkapenaIkusi klasearen eraikitzailea.
@@ -97,12 +96,6 @@ public class SailkapenaIkusi extends JFrame implements ActionListener {
         DefaultComboBoxModel<String> dcbm = new DefaultComboBoxModel<String>(denboraldiak);
         comboBox.setModel(dcbm);
         container.add(comboBox);
-        
-        lblLogo = new JLabel("LOGO");
-        lblLogo.setBounds(688, 8, 100, 60);
-        lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        container.add(lblLogo);
         
         btnItzuli.addActionListener(this);
         comboBox.addActionListener(this);

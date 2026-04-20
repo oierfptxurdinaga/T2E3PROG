@@ -67,7 +67,6 @@ public class JokalariakKudeatu extends JFrame implements ActionListener, WindowL
     private JLabel lblAdina;
     
     MenuAdmDAO madao = new MenuAdmDAO();
-    private JLabel lblLogo;
     
     /**
      * Aplikazioa abiarazteko metodo nagusia.
@@ -216,12 +215,6 @@ public class JokalariakKudeatu extends JFrame implements ActionListener, WindowL
         scrollPane = new JScrollPane(taula);
         scrollPane.setBounds(20, 313, 762, 231);
         container.add(scrollPane);
-        
-        lblLogo = new JLabel("LOGO");
-        lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblLogo.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        lblLogo.setBounds(688, 8, 100, 60);
-        container.add(lblLogo);
     
         btnSartu.addActionListener(this);
         btnEzabatu.addActionListener(this);
