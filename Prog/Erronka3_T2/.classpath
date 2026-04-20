@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="C:/Users/782874H/Desktop/JavaConector/mysql-connector-j-9.6.0/mysql-connector-j-9.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/782874H/Downloads/Jars/Jars/jaxb-runtime-3.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/782874H/Downloads/Jars/Jars/jaxb-ri/mod/jaxb-core.jar"/>
+	<classpathentry kind="lib" path="C:/Users/782874H/Downloads/Jars/Jars/jaxb-ri/mod/jakarta.xml.bind-api.jar"/>
+	<classpathentry kind="lib" path="C:/Users/782874H/Downloads/Jars/Jars/jaxb-ri/mod/jakarta.activation-api.jar"/>
+	<classpathentry kind="lib" path="C:/Users/782874H/Downloads/objectdb-2.9.4/objectdb-2.9.4/bin/objectdb-2.9.4.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
